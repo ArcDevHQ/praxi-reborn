@@ -4,9 +4,10 @@ import gg.arcdev.practice.util.callback.TypeCallback;
 import gg.arcdev.practice.util.menu.Button;
 import gg.arcdev.practice.util.menu.Menu;
 import gg.arcdev.practice.util.menu.button.ConfirmationButton;
+import org.bukkit.entity.Player;
+
 import java.util.HashMap;
 import java.util.Map;
-import org.bukkit.entity.Player;
 
 public class ConfirmMenu extends Menu {
 

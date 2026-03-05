@@ -1,14 +1,15 @@
 package gg.arcdev.practice.util.menu.pagination;
 
-import gg.arcdev.practice.util.menu.Button;
-import java.util.HashMap;
-import java.util.Map;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import gg.arcdev.practice.util.menu.Button;
 import gg.arcdev.practice.util.menu.Menu;
 import gg.arcdev.practice.util.menu.button.BackButton;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 public class ViewAllPagesMenu extends Menu {

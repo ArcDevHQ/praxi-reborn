@@ -1,14 +1,15 @@
 package gg.arcdev.practice.util.menu.pagination;
 
-import gg.arcdev.practice.util.menu.Button;
-import java.util.Arrays;
 import lombok.AllArgsConstructor;
+import gg.arcdev.practice.util.menu.Button;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.Arrays;
 
 @AllArgsConstructor
 public class JumpToPageButton extends Button {

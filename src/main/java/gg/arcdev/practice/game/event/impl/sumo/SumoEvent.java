@@ -28,7 +28,7 @@ public class SumoEvent implements Event {
 	@Getter private final List<String> allowedMaps;
 
 	public SumoEvent() {
-		BasicConfigurationFile config = Main.get().getEventsConfig();
+		BasicConfigurationFile config = Main.getInstance().getEventsConfig();
 
 		lobbyLocation = LocationUtil.deserialize(config.getString("EVENTS.SUMO.LOBBY_LOCATION"));
 
@@ -86,12 +86,12 @@ public class SumoEvent implements Event {
 
 	@Override
 	public void save() {
-		FileConfiguration config = Main.get().getEventsConfig().getConfiguration();
+		FileConfiguration config = Main.getInstance().getEventsConfig().getConfiguration();
 		config.set("EVENTS.SUMO.LOBBY_LOCATION", LocationUtil.serialize(lobbyLocation));
 		config.set("EVENTS.SUMO.ALLOWED_MAPS", allowedMaps);
 
 		try {
-			config.save(Main.get().getEventsConfig().getFile());
+			config.save(Main.getInstance().getEventsConfig().getFile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

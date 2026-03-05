@@ -80,7 +80,7 @@ public class ProfileListener implements Listener {
 				event.setCancelled(true);
 
 				if (event.getCause() == EntityDamageEvent.DamageCause.VOID) {
-					Main.get().getEssentials().teleportToSpawn((Player) event.getEntity());
+					Main.getInstance().getEssentials().teleportToSpawn((Player) event.getEntity());
 				}
 			}
 		}
@@ -129,7 +129,7 @@ public class ProfileListener implements Listener {
 	public void onPlayerJoinEvent(PlayerJoinEvent event) {
 		event.setJoinMessage(null);
 
-		for (String line : Main.get().getMainConfig().getStringList("JOIN_MESSAGES")) {
+		for (String line : Main.getInstance().getMainConfig().getStringList("JOIN_MESSAGES")) {
 			event.getPlayer().sendMessage(CC.translate(line));
 		}
 
@@ -137,14 +137,14 @@ public class ProfileListener implements Listener {
 			@Override
 			public void run() {
 				Hotbar.giveHotbarItems(event.getPlayer());
-				Main.get().getEssentials().teleportToSpawn(event.getPlayer());
+				Main.getInstance().getEssentials().teleportToSpawn(event.getPlayer());
 
 				for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
 					VisibilityLogic.handle(event.getPlayer(), otherPlayer);
 					VisibilityLogic.handle(otherPlayer, event.getPlayer());
 				}
 			}
-		}.runTaskLater(Main.get(), 4L);
+		}.runTaskLater(Main.getInstance(), 4L);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -158,7 +158,7 @@ public class ProfileListener implements Listener {
 			public void run() {
 				profile.save();
 			}
-		}.runTaskAsynchronously(Main.get());
+		}.runTaskAsynchronously(Main.getInstance());
 
 		if (profile.getRematchData() != null) {
 			profile.getRematchData().validate();

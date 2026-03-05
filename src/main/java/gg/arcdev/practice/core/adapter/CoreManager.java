@@ -7,19 +7,24 @@ import org.bukkit.plugin.Plugin;
 
 public class CoreManager {
 
-    @Getter @Setter public static CoreManager instance;
+    @Getter @Setter private static CoreManager instance;
     @Getter @Setter private Plugin plugin;
     @Getter @Setter private String coreSystem;
     @Getter @Setter private Core core;
 
-    public CoreManager() {
-        instance = this;
-        loadRank();
+    private CoreManager() {
+        loadCore();
     }
 
-    public void loadRank() {
+    public static void initialize(Plugin plugin) {
+        if (instance == null) {
+            instance = new CoreManager();
+            instance.setPlugin(plugin);
+        }
+    }
+
+    private void loadCore() {
         this.setCore(new Default());
-        setCoreSystem("Default");
+        this.setCoreSystem("Default");
     }
-
 }

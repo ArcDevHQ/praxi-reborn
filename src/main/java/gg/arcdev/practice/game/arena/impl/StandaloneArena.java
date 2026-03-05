@@ -30,7 +30,7 @@ public class StandaloneArena extends Arena {
 		System.out.println("STANDALONE ARENA SAVE");
 		String path = "arenas." + getName();
 
-		FileConfiguration configuration = Main.get().getArenasConfig().getConfiguration();
+		FileConfiguration configuration = Main.getInstance().getArenasConfig().getConfiguration();
 		configuration.set(path, null);
 		configuration.set(path + ".type", getType().name());
 		configuration.set(path + ".spawnA", LocationUtil.serialize(spawnA));
@@ -56,7 +56,7 @@ public class StandaloneArena extends Arena {
 		}
 
 		try {
-			configuration.save(Main.get().getArenasConfig().getFile());
+			configuration.save(Main.getInstance().getArenasConfig().getFile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -66,11 +66,11 @@ public class StandaloneArena extends Arena {
 	public void delete() {
 		super.delete();
 
-		FileConfiguration configuration = Main.get().getArenasConfig().getConfiguration();
+		FileConfiguration configuration = Main.getInstance().getArenasConfig().getConfiguration();
 		configuration.set("arenas." + getName(), null);
 
 		try {
-			configuration.save(Main.get().getArenasConfig().getFile());
+			configuration.save(Main.getInstance().getArenasConfig().getFile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

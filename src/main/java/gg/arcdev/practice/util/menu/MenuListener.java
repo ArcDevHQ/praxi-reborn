@@ -60,7 +60,7 @@ public class MenuListener implements Listener {
 				}
 
 				if (event.isCancelled()) {
-					Bukkit.getScheduler().runTaskLater(Main.get(), player::updateInventory, 1L);
+					Bukkit.getScheduler().runTaskLater(Main.getInstance(), player::updateInventory, 1L);
 				}
 			} else {
 				if (event.getCurrentItem() != null) {

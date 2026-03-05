@@ -137,7 +137,7 @@ public class KitManagementMenu extends Menu {
 			profile.getKitData().get(kit).replaceKit(index, kitLoadout);
 			profile.getKitEditorData().setSelectedKitLoadout(kitLoadout);
 
-			new KitEditorMenu(index).openMenu(player);
+			new KitEditorMenu().openMenu(player);
 		}
 
 	}
@@ -206,7 +206,7 @@ public class KitManagementMenu extends Menu {
 
 			profile.getKitEditorData().setSelectedKitLoadout(kit);
 
-			new KitEditorMenu(index).openMenu(player);
+			new KitEditorMenu().openMenu(player);
 		}
 
 	}

@@ -98,8 +98,8 @@ public class ProfileRematchData {
 	public void accept() {
 		this.validate();
 
-		Player sender = Main.get().getServer().getPlayer(this.sender);
-		Player target = Main.get().getServer().getPlayer(this.target);
+		Player sender = Main.getInstance().getServer().getPlayer(this.sender);
+		Player target = Main.getInstance().getServer().getPlayer(this.target);
 
 		if (sender == null || target == null || !sender.isOnline() || !target.isOnline()) {
 			return;

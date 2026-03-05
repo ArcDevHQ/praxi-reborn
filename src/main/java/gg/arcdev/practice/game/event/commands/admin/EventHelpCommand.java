@@ -12,7 +12,7 @@ public class EventHelpCommand extends BaseCommand {
 
 	@Default
 	public void onHelp(Player player) {
-		for (String line : Main.get().getMainConfig().getStringList("EVENT.HELP")) {
+		for (String line : Main.getInstance().getMainConfig().getStringList("EVENT.HELP")) {
 			player.sendMessage(CC.translate(line));
 		}
 	}

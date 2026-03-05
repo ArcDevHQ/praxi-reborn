@@ -47,7 +47,7 @@ public class SumoGameLogic implements EventGameLogic {
 	SumoGameLogic(EventGame game) {
 		this.game = game;
 		this.logicTask = new EventGameLogicTask(game);
-		this.logicTask.runTaskTimer(Main.get(), 0, 20L);
+		this.logicTask.runTaskTimer(Main.getInstance(), 0, 20L);
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class SumoGameLogic implements EventGameLogic {
 					profile.setState(ProfileState.LOBBY);
 
 					Hotbar.giveHotbarItems(player);
-					Main.get().getEssentials().teleportToSpawn(player);
+					Main.getInstance().getEssentials().teleportToSpawn(player);
 					VisibilityLogic.handle(player);
 				}
 			}
@@ -161,7 +161,7 @@ public class SumoGameLogic implements EventGameLogic {
 
 					Hotbar.giveHotbarItems(player);
 
-					Main.get().getEssentials().teleportToSpawn(player);
+					Main.getInstance().getEssentials().teleportToSpawn(player);
 				}
 			}
 		}
@@ -365,7 +365,7 @@ public class SumoGameLogic implements EventGameLogic {
 							Hotbar.giveHotbarItems(bukkitPlayer);
 							VisibilityLogic.handle(bukkitPlayer, player);
 
-							Main.get().getEssentials().teleportToSpawn(bukkitPlayer);
+							Main.getInstance().getEssentials().teleportToSpawn(bukkitPlayer);
 						}
 					}
 				}

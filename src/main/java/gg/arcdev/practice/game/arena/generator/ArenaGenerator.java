@@ -140,7 +140,7 @@ public class ArenaGenerator {
 											up.setType(Material.AIR);
 											origin.setType(origin.getRelative(BlockFace.NORTH).getType());
 										}
-									}.runTask(Main.get());
+									}.runTask(Main.getInstance());
 
 									if (arena.getSpawnA() == null) {
 										arena.setSpawnA(loc);
@@ -165,7 +165,7 @@ public class ArenaGenerator {
 								new ArenaGenerator(name, world, schematic, ArenaType.DUPLICATE)
 										.generate(file, (StandaloneArena) arena);
 							}
-						}.runTask(Main.get());
+						}.runTask(Main.getInstance());
 					}
 				}
 			});
@@ -177,7 +177,7 @@ public class ArenaGenerator {
 	}
 
 	private void log(String message) {
-		Main.get().getLogger().info("[ArenaGen] " + message);
+		Main.getInstance().getLogger().info("[ArenaGen] " + message);
 	}
 
 }

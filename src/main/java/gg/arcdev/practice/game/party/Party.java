@@ -216,7 +216,7 @@ public class Party {
 			public void run() {
 				Party.getParties().forEach(party -> party.getInvites().removeIf(PartyInvite::hasExpired));
 			}
-		}.runTaskTimerAsynchronously(Main.get(), 20L * 2, 20L * 2);
+		}.runTaskTimerAsynchronously(Main.getInstance(), 20L * 2, 20L * 2);
 	}
 	private String getColoredName(Player player) {
 		return CoreManager.getInstance().getCore().getColoredName(player.getUniqueId());

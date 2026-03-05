@@ -17,7 +17,7 @@ public class BaseEvent extends Event {
     }
 
     public void call() {
-        Main.get().getServer().getPluginManager().callEvent(this);
+        Main.getInstance().getServer().getPluginManager().callEvent(this);
     }
 
 }

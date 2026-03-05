@@ -79,17 +79,17 @@ public enum Locale {
 
 	public String format(Object... objects) {
 		return new MessageFormat(ChatColor.translateAlternateColorCodes('&',
-				Main.get().getMainConfig().getString(path))).format(objects);
+				Main.getInstance().getMainConfig().getString(path))).format(objects);
 	}
 
 	public List<String> formatLines(Object... objects) {
 		List<String> lines = new ArrayList<>();
 
-		if (Main.get().getMainConfig().get(path) instanceof String) {
+		if (Main.getInstance().getMainConfig().get(path) instanceof String) {
 			lines.add(new MessageFormat(ChatColor.translateAlternateColorCodes('&',
-					Main.get().getMainConfig().getString(path))).format(objects));
+					Main.getInstance().getMainConfig().getString(path))).format(objects));
 		} else {
-			for (String string : Main.get().getMainConfig().getStringList(path)) {
+			for (String string : Main.getInstance().getMainConfig().getStringList(path)) {
 				lines.add(new MessageFormat(ChatColor.translateAlternateColorCodes('&', string))
 						.format(objects));
 			}

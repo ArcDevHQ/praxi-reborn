@@ -13,7 +13,7 @@ import org.bukkit.potion.PotionEffectType;
 public class PlayerUtil {
 
 	public static void setLastAttacker(Player victim, Player attacker) {
-		victim.setMetadata("lastAttacker", new FixedMetadataValue(Main.get(), attacker.getUniqueId()));
+		victim.setMetadata("lastAttacker", new FixedMetadataValue(Main.getInstance(), attacker.getUniqueId()));
 	}
 
 	public static Player getLastAttacker(Player victim) {

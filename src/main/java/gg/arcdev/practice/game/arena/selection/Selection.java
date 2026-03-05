@@ -56,7 +56,7 @@ public class Selection {
 
 		Selection selection = new Selection();
 
-		player.setMetadata(SELECTION_METADATA_KEY, new FixedMetadataValue(Main.get(), selection));
+		player.setMetadata(SELECTION_METADATA_KEY, new FixedMetadataValue(Main.getInstance(), selection));
 
 		return selection;
 	}

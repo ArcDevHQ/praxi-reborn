@@ -47,12 +47,12 @@ public class ScoreboardAdapter implements BoardAdapter {
 				ScoreboardAdapter.this.inQueues = inQueues;
 				ScoreboardAdapter.this.inFights = inFights;
 			}
-		}.runTaskTimerAsynchronously(Main.get(), 2L, 2L);
+		}.runTaskTimerAsynchronously(Main.getInstance(), 2L, 2L);
 	}
 
 	@Override
 	public String getTitle(Player player) {
-		return Main.get().getMainConfig().getString("SCOREBOARD.TITLE");
+		return Main.getInstance().getMainConfig().getString("SCOREBOARD.TITLE");
 	}
 
 	@Override

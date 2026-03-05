@@ -3,8 +3,10 @@ package gg.arcdev.practice.util.menu;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -27,6 +29,23 @@ public abstract class Button {
 	public static void playFail(Player player) {
 		player.playSound(player.getLocation(), Sound.DIG_GRASS, 20F, 0.1F);
 
+	}
+
+	protected ItemStack glow(ItemStack item) {
+
+		ItemStack clone = item.clone();
+
+		ItemMeta meta = clone.getItemMeta();
+
+		if (meta != null) {
+
+			meta.addEnchant(Enchantment.DURABILITY, 1, true);
+			meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
+			clone.setItemMeta(meta);
+		}
+
+		return clone;
 	}
 
 	public static void playSuccess(Player player) {

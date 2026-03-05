@@ -354,7 +354,7 @@ public class Cuboid implements Iterable<Location> {
 	 * Get the Cuboid representing the face of this Cuboid. The resulting Cuboid will be one block thick in the axis
 	 * perpendicular to the requested face.
 	 *
-	 * @param dir which face of the Cuboid to get
+	 * @param dir which face of the Cuboid to getInstance
 	 *
 	 * @return the Cuboid representing this Cuboid's requested face
 	 */
@@ -435,7 +435,7 @@ public class Cuboid implements Iterable<Location> {
 
 		World w = getWorld();
 
-		// These operators get the lower bound of the chunk, by complementing 0xf (15) into 16
+		// These operators getInstance the lower bound of the chunk, by complementing 0xf (15) into 16
 		// and using an OR gate on the integer coordinate
 
 		int x1 = getLowerX() & ~0xf;

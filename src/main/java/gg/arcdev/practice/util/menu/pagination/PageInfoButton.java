@@ -1,8 +1,8 @@
 package gg.arcdev.practice.util.menu.pagination;
 
+import lombok.AllArgsConstructor;
 import gg.arcdev.practice.util.ItemBuilder;
 import gg.arcdev.practice.util.menu.Button;
-import lombok.AllArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

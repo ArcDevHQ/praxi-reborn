@@ -1,9 +1,10 @@
 package gg.arcdev.practice.util.menu.pagination;
 
-import java.util.function.Predicate;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+
+import java.util.function.Predicate;
 
 @RequiredArgsConstructor
 public class PageFilter<T> {

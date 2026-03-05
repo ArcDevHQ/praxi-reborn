@@ -1,9 +1,9 @@
 package gg.arcdev.practice.util.menu.button;
 
+import lombok.AllArgsConstructor;
 import gg.arcdev.practice.util.callback.TypeCallback;
 import gg.arcdev.practice.util.menu.Button;
 import gg.arcdev.practice.util.menu.Menu;
-import lombok.AllArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;

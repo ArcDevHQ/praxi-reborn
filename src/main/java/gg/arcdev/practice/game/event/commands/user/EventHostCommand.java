@@ -105,7 +105,7 @@ public class EventHostCommand extends BaseCommand {
 
 	private int getHostSlots(Player host) {
 		int slots = 32;
-		FileConfiguration config = Main.get().getEventsConfig().getConfiguration();
+		FileConfiguration config = Main.getInstance().getEventsConfig().getConfiguration();
 
 		for (String key : config.getConfigurationSection("HOST_SLOTS").getKeys(false)) {
 			if (host.hasPermission(config.getString("HOST_SLOTS." + key + ".PERMISSION"))) {

@@ -1,17 +1,18 @@
 package gg.arcdev.practice.util.menu.pagination;
 
+import lombok.AllArgsConstructor;
 import gg.arcdev.practice.util.CC;
 import gg.arcdev.practice.util.ItemBuilder;
 import gg.arcdev.practice.util.menu.Button;
-import java.util.ArrayList;
-import java.util.List;
-import lombok.AllArgsConstructor;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 public class PageFilterButton<T> extends Button {
@@ -52,7 +53,7 @@ public class PageFilterButton<T> extends Button {
 		lore.add("&eRight click to toggle a filter.");
 		lore.add(CC.MENU_BAR);
 
-		return new ItemBuilder(Material.HOPPER)
+		return new ItemBuilder(Material.REDSTONE_COMPARATOR)
 				.name("&7Filters")
 				.lore(lore)
 				.build();

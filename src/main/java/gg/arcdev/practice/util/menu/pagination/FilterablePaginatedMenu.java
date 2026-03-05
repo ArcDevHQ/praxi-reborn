@@ -1,13 +1,14 @@
 package gg.arcdev.practice.util.menu.pagination;
 
+import lombok.Getter;
+import lombok.Setter;
 import gg.arcdev.practice.util.menu.Button;
+import org.bukkit.entity.Player;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
-import org.bukkit.entity.Player;
 
 public abstract class FilterablePaginatedMenu<T> extends PaginatedMenu {
 

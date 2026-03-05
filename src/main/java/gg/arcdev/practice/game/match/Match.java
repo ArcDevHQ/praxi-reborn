@@ -20,7 +20,6 @@ import gg.arcdev.practice.core.profile.meta.ProfileKitData;
 import gg.arcdev.practice.core.profile.visibility.VisibilityLogic;
 import gg.arcdev.practice.game.queue.Queue;
 import gg.arcdev.practice.util.*;
-import gg.arcdev.practice.util.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -119,7 +118,7 @@ public abstract class Match {
 
 		// Start logic task
 		logicTask = new MatchLogicTask(this);
-		logicTask.runTaskTimer(Main.get(), 0L, 20L);
+		logicTask.runTaskTimer(Main.getInstance(), 0L, 20L);
 
 		// Set arena as active
 		arena.setActive(true);
@@ -181,7 +180,7 @@ public abstract class Match {
 					if (player != null) {
 						VisibilityLogic.handle(player);
 						Hotbar.giveHotbarItems(player);
-						Main.get().getEssentials().teleportToSpawn(player);
+						Main.getInstance().getEssentials().teleportToSpawn(player);
 					}
 				}
 			}
@@ -193,7 +192,7 @@ public abstract class Match {
 
 		droppedItems.forEach(Entity::remove);
 
-		new MatchResetTask(this).runTask(Main.get());
+		new MatchResetTask(this).runTask(Main.getInstance());
 
 		matches.remove(this);
 	}
@@ -441,7 +440,7 @@ public abstract class Match {
 
 		PlayerUtil.reset(spectator);
 		Hotbar.giveHotbarItems(spectator);
-		Main.get().getEssentials().teleportToSpawn(spectator);
+		Main.getInstance().getEssentials().teleportToSpawn(spectator);
 
 		VisibilityLogic.handle(spectator);
 
@@ -575,8 +574,8 @@ public abstract class Match {
 	}
 
 	public static void init() {
-		new MatchPearlCooldownTask().runTaskTimerAsynchronously(Main.get(), 2L, 2L);
-		new MatchSnapshotCleanupTask().runTaskTimerAsynchronously(Main.get(), 20L * 5, 20L * 5);
+		new MatchPearlCooldownTask().runTaskTimerAsynchronously(Main.getInstance(), 2L, 2L);
+		new MatchSnapshotCleanupTask().runTaskTimerAsynchronously(Main.getInstance(), 20L * 5, 20L * 5);
 	}
 
 	public static void cleanup() {

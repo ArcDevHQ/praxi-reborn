@@ -21,7 +21,7 @@ public interface Event {
 
 		for (Event event : events) {
 			for (Listener listener : event.getListeners()) {
-				Main.get().getServer().getPluginManager().registerEvents(listener, Main.get());
+				Main.getInstance().getServer().getPluginManager().registerEvents(listener, Main.getInstance());
 			}
 		}
 	}

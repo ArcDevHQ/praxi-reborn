@@ -63,13 +63,13 @@ public class TeamEventGameMap extends EventGameMap {
 	public void save() {
 		super.save();
 
-		FileConfiguration config = Main.get().getEventsConfig().getConfiguration();
+		FileConfiguration config = Main.getInstance().getEventsConfig().getConfiguration();
 		config.set("EVENT_MAPS." + getMapName() + ".TYPE", "TEAM");
 		config.set("EVENT_MAPS." + getMapName() + ".SPAWN_POINT_A", LocationUtil.serialize(spawnPointA));
 		config.set("EVENT_MAPS." + getMapName() + ".SPAWN_POINT_B", LocationUtil.serialize(spawnPointB));
 
 		try {
-			config.save(Main.get().getEventsConfig().getFile());
+			config.save(Main.getInstance().getEventsConfig().getFile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

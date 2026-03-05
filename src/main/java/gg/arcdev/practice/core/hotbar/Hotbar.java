@@ -22,7 +22,7 @@ public class Hotbar {
 	private static final Map<HotbarItem, ItemStack> items = new HashMap<>();
 
 	public static void init() {
-		FileConfiguration config = Main.get().getMainConfig().getConfiguration();
+		FileConfiguration config = Main.getInstance().getMainConfig().getConfiguration();
 
 		for (HotbarItem hotbarItem : HotbarItem.values()) {
 			try {

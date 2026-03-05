@@ -1,15 +1,16 @@
 package gg.arcdev.practice.util.menu.button;
 
+import lombok.AllArgsConstructor;
 import gg.arcdev.practice.util.CC;
 import gg.arcdev.practice.util.ItemBuilder;
 import gg.arcdev.practice.util.menu.Button;
 import gg.arcdev.practice.util.menu.Menu;
-import java.util.Arrays;
-import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Arrays;
 
 @AllArgsConstructor
 public class BackButton extends Button {

@@ -40,7 +40,7 @@ public class Kit {
 	public void save() {
 		String path = "kits." + name;
 
-		BasicConfigurationFile configFile = Main.get().getKitsConfig();
+		BasicConfigurationFile configFile = Main.getInstance().getKitsConfig();
 		configFile.getConfiguration().set(path + ".enabled", enabled);
 		configFile.getConfiguration().set(path + ".icon.material", displayIcon.getType().name());
 		configFile.getConfiguration().set(path + ".icon.durability", displayIcon.getDurability());
@@ -67,7 +67,7 @@ public class Kit {
 	}
 
 	public static void init() {
-		FileConfiguration config = Main.get().getKitsConfig().getConfiguration();
+		FileConfiguration config = Main.getInstance().getKitsConfig().getConfiguration();
 
 		for (String key : config.getConfigurationSection("kits").getKeys(false)) {
 			String path = "kits." + key;

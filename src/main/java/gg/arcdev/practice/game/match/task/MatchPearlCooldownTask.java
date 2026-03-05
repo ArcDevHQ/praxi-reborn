@@ -11,7 +11,7 @@ public class MatchPearlCooldownTask extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		for (Player player : Main.get().getServer().getOnlinePlayers()) {
+		for (Player player : Main.getInstance().getServer().getOnlinePlayers()) {
 			Profile profile = Profile.getByUuid(player.getUniqueId());
 
 			if (profile.getState() == ProfileState.FIGHTING || profile.getState() == ProfileState.EVENT) {

@@ -14,7 +14,7 @@ public class SetSpawnCommand extends BaseCommand {
 
     @Default
     public void onSetSpawn(Player player) {
-        Main.get().getEssentials().setSpawn(player.getLocation());
+        Main.getInstance().getEssentials().setSpawn(player.getLocation());
         player.sendMessage(CC.translate("&bSpawn set successfully!"));
     }
 }

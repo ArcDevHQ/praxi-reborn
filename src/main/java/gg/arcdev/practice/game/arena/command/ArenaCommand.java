@@ -164,7 +164,7 @@ public class ArenaCommand extends BaseCommand {
     @Subcommand("generate")
     public void onGenerate(CommandSender sender) {
 
-        File schematicsFolder = new File(Main.get().getDataFolder(), "schematics");
+        File schematicsFolder = new File(Main.getInstance().getDataFolder(), "schematics");
 
         if (!schematicsFolder.exists()) {
             sender.sendMessage(CC.RED + "The schematics folder does not exist.");
@@ -210,7 +210,7 @@ public class ArenaCommand extends BaseCommand {
                         e.printStackTrace();
                     }
                 }
-            }.runTask(Main.get());
+            }.runTask(Main.getInstance());
         }
 
         sender.sendMessage(CC.GREEN + "Generating arenas... See console for details.");

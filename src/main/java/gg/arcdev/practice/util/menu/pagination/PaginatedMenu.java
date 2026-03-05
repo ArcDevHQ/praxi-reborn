@@ -1,11 +1,12 @@
 package gg.arcdev.practice.util.menu.pagination;
 
-import gg.arcdev.practice.util.menu.Button;
-import java.util.HashMap;
-import java.util.Map;
 import lombok.Getter;
+import gg.arcdev.practice.util.menu.Button;
 import gg.arcdev.practice.util.menu.Menu;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class PaginatedMenu extends Menu {
 

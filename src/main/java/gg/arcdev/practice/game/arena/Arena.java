@@ -74,7 +74,7 @@ public class Arena extends Cuboid {
 	}
 
 	public static void init() {
-		FileConfiguration configuration = Main.get().getArenasConfig().getConfiguration();
+		FileConfiguration configuration = Main.getInstance().getArenasConfig().getConfiguration();
 
 		if (configuration.contains("arenas")) {
 			for (String arenaName : configuration.getConfigurationSection("arenas").getKeys(false)) {
@@ -131,7 +131,7 @@ public class Arena extends Cuboid {
 			}
 		}
 
-		Main.get().getLogger().info("Loaded " + Arena.getArenas().size() + " arenas");
+		Main.getInstance().getLogger().info("Loaded " + Arena.getArenas().size() + " arenas");
 	}
 
 	public static Arena getByName(String name) {

@@ -27,7 +27,7 @@ public class SharedArena extends Arena {
 	public void save() {
 		String path = "arenas." + getName();
 
-		FileConfiguration configuration = Main.get().getArenasConfig().getConfiguration();
+		FileConfiguration configuration = Main.getInstance().getArenasConfig().getConfiguration();
 		configuration.set(path, null);
 		configuration.set(path + ".type", getType().name());
 		configuration.set(path + ".spawnA", LocationUtil.serialize(spawnA));
@@ -37,7 +37,7 @@ public class SharedArena extends Arena {
 		configuration.set(path + ".kits", getKits());
 
 		try {
-			configuration.save(Main.get().getArenasConfig().getFile());
+			configuration.save(Main.getInstance().getArenasConfig().getFile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -47,11 +47,11 @@ public class SharedArena extends Arena {
 	public void delete() {
 		super.delete();
 
-		FileConfiguration configuration = Main.get().getArenasConfig().getConfiguration();
+		FileConfiguration configuration = Main.getInstance().getArenasConfig().getConfiguration();
 		configuration.set("arenas." + getName(), null);
 
 		try {
-			configuration.save(Main.get().getArenasConfig().getFile());
+			configuration.save(Main.getInstance().getArenasConfig().getFile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

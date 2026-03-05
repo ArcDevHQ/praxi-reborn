@@ -36,23 +36,23 @@ public abstract class EventGameMap {
 	public abstract void teleportFighters(EventGame game);
 
 	public void save() {
-		FileConfiguration config = Main.get().getEventsConfig().getConfiguration();
+		FileConfiguration config = Main.getInstance().getEventsConfig().getConfiguration();
 		config.set("EVENT_MAPS." + mapName, null);
 		config.set("EVENT_MAPS." + mapName + ".SPECTATOR_POINT", LocationUtil.serialize(spectatorPoint));
 
 		try {
-			config.save(Main.get().getEventsConfig().getFile());
+			config.save(Main.getInstance().getEventsConfig().getFile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void delete() {
-		FileConfiguration config = Main.get().getEventsConfig().getConfiguration();
+		FileConfiguration config = Main.getInstance().getEventsConfig().getConfiguration();
 		config.set("EVENT_MAPS." + mapName, null);
 
 		try {
-			config.save(Main.get().getEventsConfig().getFile());
+			config.save(Main.getInstance().getEventsConfig().getFile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -81,7 +81,7 @@ public abstract class EventGameMap {
 	}
 
 	public static void init() {
-		FileConfiguration config = Main.get().getEventsConfig().getConfiguration();
+		FileConfiguration config = Main.getInstance().getEventsConfig().getConfiguration();
 
 		for (String key : config.getConfigurationSection("EVENT_MAPS").getKeys(false)) {
 			final String path = "EVENT_MAPS." + key + ".";

@@ -201,7 +201,7 @@ public class Profile {
 	}
 
 	public static void init() {
-		collection = Main.get().getMongoDatabase().getCollection("profiles");
+		collection = Main.getInstance().getMongoDatabase().getCollection("profiles");
 
 		// Players might have joined before the plugin finished loading
 		for (Player player : Bukkit.getOnlinePlayers()) {
@@ -234,7 +234,7 @@ public class Profile {
 					}
 				}
 			}
-		}.runTaskTimerAsynchronously(Main.get(), 60L, 60L);
+		}.runTaskTimerAsynchronously(Main.getInstance(), 60L, 60L);
 
 		// Save every 5 minutes to prevent data loss
 		new BukkitRunnable() {
@@ -244,7 +244,7 @@ public class Profile {
 					profile.save();
 				}
 			}
-		}.runTaskTimerAsynchronously(Main.get(), 6000L, 6000L);
+		}.runTaskTimerAsynchronously(Main.getInstance(), 6000L, 6000L);
 	}
 
 	public static Profile getByUuid(UUID uuid) {

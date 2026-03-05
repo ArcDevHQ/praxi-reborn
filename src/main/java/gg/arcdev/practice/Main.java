@@ -2,6 +2,7 @@ package gg.arcdev.practice;
 
 import gg.arcdev.practice.core.CommandRegistry;
 import co.aikar.commands.PaperCommandManager;
+import gg.arcdev.practice.core.adapter.CoreManager;
 import gg.arcdev.practice.game.kit.KitEditorListener;
 import gg.arcdev.practice.util.aether.Aether;
 import gg.arcdev.practice.util.aether.AetherOptions;
@@ -52,6 +53,8 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		practice = this;
+
+		CoreManager.initialize(this);
 
 		getServer().getPluginManager().registerEvents(new MenuListener(), this);
 
@@ -128,7 +131,7 @@ public class Main extends JavaPlugin {
 		}
 	}
 
-	public static Main get() {
+	public static Main getInstance() {
 		return practice;
 	}
 }
