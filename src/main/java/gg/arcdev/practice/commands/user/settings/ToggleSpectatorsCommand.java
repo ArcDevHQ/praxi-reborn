@@ -1,22 +1,25 @@
 package gg.arcdev.practice.commands.user.settings;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Default;
 import gg.arcdev.practice.Locale;
 import gg.arcdev.practice.core.profile.Profile;
-import gg.arcdev.practice.util.command.command.CommandMeta;
 import org.bukkit.entity.Player;
 
-@CommandMeta(label = { "togglespectators", "togglespecs", "tgs" })
-public class ToggleSpectatorsCommand {
+@CommandAlias("togglespectators|togglespecs|tgs")
+public class ToggleSpectatorsCommand extends BaseCommand {
 
-    public void execute(Player player) {
+    @Default
+    public void onToggle(Player player) {
         Profile profile = Profile.getByUuid(player.getUniqueId());
-        profile.getOptions().allowSpectators(!profile.getOptions().allowSpectators());
+        boolean newState = !profile.getOptions().allowSpectators();
+        profile.getOptions().allowSpectators(newState);
 
-        if (profile.getOptions().allowSpectators()) {
+        if (newState) {
             player.sendMessage(Locale.OPTIONS_SPECTATORS_ENABLED.format());
         } else {
             player.sendMessage(Locale.OPTIONS_SPECTATORS_DISABLED.format());
         }
     }
-
 }

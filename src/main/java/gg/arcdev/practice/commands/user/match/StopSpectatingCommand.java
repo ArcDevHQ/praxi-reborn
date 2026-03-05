@@ -1,15 +1,18 @@
 package gg.arcdev.practice.commands.user.match;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Default;
 import gg.arcdev.practice.core.profile.Profile;
 import gg.arcdev.practice.core.profile.ProfileState;
-import gg.arcdev.practice.util.command.command.CommandMeta;
 import gg.arcdev.practice.util.CC;
 import org.bukkit.entity.Player;
 
-@CommandMeta(label = "stopspectating")
-public class StopSpectatingCommand {
+@CommandAlias("stopspectating")
+public class StopSpectatingCommand extends BaseCommand {
 
-	public void execute(Player player) {
+	@Default
+	public void onStopSpectating(Player player) {
 		Profile profile = Profile.getByUuid(player.getUniqueId());
 
 		if (profile.getState() == ProfileState.FIGHTING && profile.getMatch().getGamePlayer(player).isDead()) {
@@ -22,5 +25,4 @@ public class StopSpectatingCommand {
 			player.sendMessage(CC.RED + "You are not spectating a match.");
 		}
 	}
-
 }

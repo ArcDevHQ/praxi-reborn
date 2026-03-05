@@ -17,18 +17,6 @@ KIT_EDITOR:
   RENAMED: "&eYou have renamed your &a{0} &ekit to &a{1}&e."
   NAME_TOO_LONG: "&cYour kit name cannot be more than 16 characters long."
 PARTY:
-  HELP:
-    - "&7&m------------------------------------------------"
-    - "&6Party Help"
-    - "&9/party create &7- &fCreate a party"
-    - "&9/party disband &7- &fDisband your party"
-    - "&9/party leave &7- &fLeave your party"
-    - "&9/party join <name> &7- &fJoin a party"
-    - "&9/party kick <player> &7- &fKick a member"
-    - "&9/party open &7- &fMake your party open"
-    - "&9/party close &7- &fMake your party closed"
-    - "&9/party chat <msg> &7- &fSend a chat message"
-    - "&7&m------------------------------------------------"
   CREATE: "&9You have created a party."
   DISBAND: "&9Your party has been disbanded."
   INVITE:

@@ -23,11 +23,16 @@ public interface Event {
 			for (Listener listener : event.getListeners()) {
 				Main.get().getServer().getPluginManager().registerEvents(listener, Main.get());
 			}
+		}
+	}
 
-			for (Object command : event.getCommands()) {
-				Main.get().getHoncho().registerCommand(command);
+	static Event getByName(String name) {
+		for (Event event : events) {
+			if (event.getDisplayName().equalsIgnoreCase(name)) {
+				return event;
 			}
 		}
+		return null;
 	}
 
 	static <T extends Event> T getEvent(Class<? extends Event> clazz) {

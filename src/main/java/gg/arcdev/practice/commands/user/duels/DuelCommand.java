@@ -1,18 +1,20 @@
 package gg.arcdev.practice.commands.user.duels;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Default;
+import gg.arcdev.practice.core.profile.Profile;
 import gg.arcdev.practice.game.duel.DuelProcedure;
 import gg.arcdev.practice.game.duel.DuelRequest;
 import gg.arcdev.practice.game.duel.menu.DuelSelectKitMenu;
-import gg.arcdev.practice.core.profile.Profile;
-import gg.arcdev.practice.util.command.command.CPL;
-import gg.arcdev.practice.util.command.command.CommandMeta;
 import gg.arcdev.practice.util.CC;
 import org.bukkit.entity.Player;
 
-@CommandMeta(label = "duel")
-public class DuelCommand {
+@CommandAlias("duel")
+public class DuelCommand extends BaseCommand {
 
-	public void execute(Player sender, @CPL("player") Player target) {
+	@Default
+	public void onDuel(Player sender, Player target) {
 		if (target == null) {
 			sender.sendMessage(CC.RED + "A player with that name could not be found.");
 			return;
@@ -82,5 +84,4 @@ public class DuelCommand {
 
 		new DuelSelectKitMenu().openMenu(sender);
 	}
-
 }

@@ -1,5 +1,9 @@
 package gg.arcdev.practice.commands.user.duels;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Default;
+import gg.arcdev.practice.core.profile.Profile;
 import gg.arcdev.practice.game.arena.Arena;
 import gg.arcdev.practice.game.duel.DuelRequest;
 import gg.arcdev.practice.game.match.Match;
@@ -8,16 +12,14 @@ import gg.arcdev.practice.game.match.participant.MatchGamePlayer;
 import gg.arcdev.practice.game.participant.GameParticipant;
 import gg.arcdev.practice.game.participant.TeamGameParticipant;
 import gg.arcdev.practice.game.party.Party;
-import gg.arcdev.practice.core.profile.Profile;
-import gg.arcdev.practice.util.command.command.CPL;
-import gg.arcdev.practice.util.command.command.CommandMeta;
 import gg.arcdev.practice.util.CC;
 import org.bukkit.entity.Player;
 
-@CommandMeta(label = "duel accept")
-public class DuelAcceptCommand {
+@CommandAlias("duel accept")
+public class DuelAcceptCommand extends BaseCommand {
 
-	public void execute(Player player, @CPL("player") Player target) {
+	@Default
+	public void onAccept(Player player, Player target) {
 		if (target == null) {
 			player.sendMessage(CC.RED + "That player is no longer online.");
 			return;
@@ -124,5 +126,4 @@ public class DuelAcceptCommand {
 			player.sendMessage(CC.RED + "You do not have a duel request from that player.");
 		}
 	}
-
 }

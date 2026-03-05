@@ -1,15 +1,18 @@
 package gg.arcdev.practice.commands.user.duels;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Default;
 import gg.arcdev.practice.core.profile.Profile;
 import gg.arcdev.practice.core.profile.meta.ProfileRematchData;
-import gg.arcdev.practice.util.command.command.CommandMeta;
 import gg.arcdev.practice.util.CC;
 import org.bukkit.entity.Player;
 
-@CommandMeta(label = "rematch")
-public class RematchCommand {
+@CommandAlias("rematch")
+public class RematchCommand extends BaseCommand {
 
-	public void execute(Player player) {
+	@Default
+	public void onRematch(Player player) {
 		if (player.hasMetadata("frozen")) {
 			player.sendMessage(CC.RED + "You cannot duel while frozen.");
 			return;
@@ -41,5 +44,4 @@ public class RematchCommand {
 			rematchData.request();
 		}
 	}
-
 }

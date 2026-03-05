@@ -1,17 +1,20 @@
 package gg.arcdev.practice.commands.user.match;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Default;
 import gg.arcdev.practice.game.match.MatchSnapshot;
 import gg.arcdev.practice.game.match.menu.MatchDetailsMenu;
-import gg.arcdev.practice.util.command.command.CommandMeta;
-import java.util.UUID;
-
 import gg.arcdev.practice.util.CC;
 import org.bukkit.entity.Player;
 
-@CommandMeta(label = "viewinv")
-public class ViewInventoryCommand {
+import java.util.UUID;
 
-	public void execute(Player player, String id) {
+@CommandAlias("viewinv")
+public class ViewInventoryCommand extends BaseCommand {
+
+	@Default
+	public void onViewInventory(Player player, String id) {
 		MatchSnapshot cachedInventory;
 
 		try {
@@ -27,5 +30,4 @@ public class ViewInventoryCommand {
 
 		new MatchDetailsMenu(cachedInventory).openMenu(player);
 	}
-
 }

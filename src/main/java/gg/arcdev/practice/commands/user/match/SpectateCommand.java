@@ -1,15 +1,18 @@
 package gg.arcdev.practice.commands.user.match;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Default;
 import gg.arcdev.practice.core.profile.Profile;
 import gg.arcdev.practice.core.profile.ProfileState;
-import gg.arcdev.practice.util.command.command.CommandMeta;
 import gg.arcdev.practice.util.CC;
 import org.bukkit.entity.Player;
 
-@CommandMeta(label = { "spectate", "spec" })
-public class SpectateCommand {
+@CommandAlias("spectate|spec")
+public class SpectateCommand extends BaseCommand {
 
-	public void execute(Player player, Player target) {
+	@Default
+	public void onSpectate(Player player, Player target) {
 		if (player.hasMetadata("frozen")) {
 			player.sendMessage(CC.RED + "You cannot spectate while frozen.");
 			return;
@@ -46,5 +49,4 @@ public class SpectateCommand {
 
 		targetProfile.getMatch().addSpectator(player, target);
 	}
-
 }
