@@ -3,9 +3,8 @@ package gg.arcdev.practice;
 import gg.arcdev.practice.core.CommandRegistry;
 import co.aikar.commands.PaperCommandManager;
 import gg.arcdev.practice.core.adapter.CoreManager;
+import gg.arcdev.practice.core.scoreboard.ScoreboardListener;
 import gg.arcdev.practice.game.kit.KitEditorListener;
-import gg.arcdev.practice.util.aether.Aether;
-import gg.arcdev.practice.util.aether.AetherOptions;
 import gg.arcdev.practice.game.arena.Arena;
 import gg.arcdev.practice.game.arena.ArenaListener;
 import gg.arcdev.practice.core.essentials.Essentials;
@@ -24,6 +23,7 @@ import gg.arcdev.practice.game.queue.QueueListener;
 import gg.arcdev.practice.game.queue.QueueThread;
 import gg.arcdev.practice.core.scoreboard.ScoreboardAdapter;
 import gg.arcdev.practice.util.InventoryUtil;
+import gg.arcdev.practice.util.assemble.Assemble;
 import gg.arcdev.practice.util.config.BasicConfigurationFile;
 import gg.arcdev.practice.util.menu.MenuListener;
 import com.mongodb.MongoClient;
@@ -50,22 +50,44 @@ public class Main extends JavaPlugin {
 	@Getter private Essentials essentials;
 	@Getter private PaperCommandManager commandManager;
 
+	@Getter private ScoreboardAdapter adapter;
+	@Getter private Assemble assemble;
+
 	@Override
 	public void onEnable() {
 		practice = this;
 
+		initializeCore();
+		loadConfigs();
+		initializeServices();
+		initializeModules();
+		registerListeners();
+		removeCrafting();
+		setupWorlds();
+	}
+
+	@Override
+	public void onDisable() {
+		Match.cleanup();
+	}
+
+	private void initializeCore() {
 		CoreManager.initialize(this);
+	}
 
-		getServer().getPluginManager().registerEvents(new MenuListener(), this);
-
+	private void loadConfigs() {
 		mainConfig = new BasicConfigurationFile(this, "config");
 		arenasConfig = new BasicConfigurationFile(this, "arenas");
 		kitsConfig = new BasicConfigurationFile(this, "kits");
 		eventsConfig = new BasicConfigurationFile(this, "events");
+	}
 
-		this.essentials = new Essentials(this);
+	private void initializeServices() {
+		essentials = new Essentials(this);
 		loadMongo();
+	}
 
+	private void initializeModules() {
 		Hotbar.init();
 		Kit.init();
 		Arena.init();
@@ -75,14 +97,17 @@ public class Main extends JavaPlugin {
 		Event.init();
 		EventGameMap.init();
 
-		new Aether(this, new ScoreboardAdapter(), new AetherOptions().hook(true));
+		adapter = new ScoreboardAdapter();
+		assemble = new Assemble(this, adapter);
+
 		new QueueThread().start();
 
 		commandManager = new PaperCommandManager(this);
 		commandManager.enableUnstableAPI("help");
-
 		new CommandRegistry(this).registerCommands();
+	}
 
+	private void registerListeners() {
 		Arrays.asList(
 				new KitEditorListener(),
 				new PartyListener(),
@@ -90,9 +115,13 @@ public class Main extends JavaPlugin {
 				new MatchListener(),
 				new QueueListener(),
 				new ArenaListener(),
-				new EventGameListener()
+				new EventGameListener(),
+				new MenuListener(),
+				new ScoreboardListener(assemble)
 		).forEach(listener -> getServer().getPluginManager().registerEvents(listener, this));
+	}
 
+	private void removeCrafting() {
 		Arrays.asList(
 				Material.WORKBENCH,
 				Material.STICK,
@@ -100,16 +129,13 @@ public class Main extends JavaPlugin {
 				Material.WOOD_BUTTON,
 				Material.SNOW_BLOCK
 		).forEach(InventoryUtil::removeCrafting);
-
-		getServer().getWorlds().forEach(world -> {
-			world.setDifficulty(Difficulty.HARD);
-			getEssentials().clearEntities(world);
-		});
 	}
 
-	@Override
-	public void onDisable() {
-		Match.cleanup();
+	private void setupWorlds() {
+		getServer().getWorlds().forEach(world -> {
+			world.setDifficulty(Difficulty.HARD);
+			essentials.clearEntities(world);
+		});
 	}
 
 	private void loadMongo() {

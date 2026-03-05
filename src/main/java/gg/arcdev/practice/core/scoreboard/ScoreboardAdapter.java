@@ -1,67 +1,61 @@
 package gg.arcdev.practice.core.scoreboard;
 
-import gg.arcdev.practice.util.aether.scoreboard.Board;
-import gg.arcdev.practice.util.aether.scoreboard.BoardAdapter;
-import gg.arcdev.practice.util.aether.scoreboard.cooldown.BoardCooldown;
-import gg.arcdev.practice.game.event.game.EventGame;
+import gg.arcdev.practice.Main;
 import gg.arcdev.practice.core.profile.Profile;
 import gg.arcdev.practice.core.profile.ProfileState;
-import gg.arcdev.practice.game.queue.QueueProfile;
-import java.util.ArrayList;
-import java.util.List;
-import gg.arcdev.practice.Main;
+import gg.arcdev.practice.game.event.game.EventGame;
 import gg.arcdev.practice.game.party.Party;
-import java.util.Set;
-
+import gg.arcdev.practice.game.queue.QueueProfile;
 import gg.arcdev.practice.util.CC;
 import gg.arcdev.practice.util.TimeUtil;
+import gg.arcdev.practice.util.assemble.AssembleAdapter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Scoreboard;
 
-public class ScoreboardAdapter implements BoardAdapter {
+import java.util.ArrayList;
+import java.util.List;
+
+public class ScoreboardAdapter implements AssembleAdapter {
 
 	private int inQueues;
 	private int inFights;
 
 	public ScoreboardAdapter() {
-		new BukkitRunnable() {
+		Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getInstance(), new Runnable() {
 			@Override
 			public void run() {
-				int inQueues = 0;
-				int inFights = 0;
+				int queues = 0;
+				int fights = 0;
 
 				for (Player player : Bukkit.getOnlinePlayers()) {
 					Profile profile = Profile.getByUuid(player.getUniqueId());
+					if (profile == null) continue;
 
-					if (profile != null) {
-						if (profile.getState() == ProfileState.QUEUEING) {
-							inQueues++;
-						} else if (profile.getState() == ProfileState.FIGHTING || profile.getState() == ProfileState.EVENT) {
-							inFights++;
-						}
+					switch (profile.getState()) {
+						case QUEUEING:
+							queues++;
+							break;
+						case FIGHTING:
+						case EVENT:
+							fights++;
+							break;
 					}
 				}
 
-				ScoreboardAdapter.this.inQueues = inQueues;
-				ScoreboardAdapter.this.inFights = inFights;
+				inQueues = queues;
+				inFights = fights;
 			}
-		}.runTaskTimerAsynchronously(Main.getInstance(), 2L, 2L);
+		}, 2L, 2L);
 	}
-
 	@Override
 	public String getTitle(Player player) {
 		return Main.getInstance().getMainConfig().getString("SCOREBOARD.TITLE");
 	}
 
 	@Override
-	public List<String> getScoreboard(Player player, Board board, Set<BoardCooldown> cooldowns) {
+	public List<String> getLines(Player player) {
 		Profile profile = Profile.getByUuid(player.getUniqueId());
-
-		if (!profile.getOptions().showScoreboard()) {
-			return null;
-		}
+		if (profile == null || !profile.getOptions().showScoreboard()) return null;
 
 		List<String> lines = new ArrayList<>();
 
@@ -71,31 +65,24 @@ public class ScoreboardAdapter implements BoardAdapter {
 			lines.add("&cIn Queues: &7" + inQueues);
 
 			if (EventGame.getActiveGame() == null && !EventGame.getCooldown().hasExpired()) {
-				lines.add("&cEvent Cooldown: &7" + TimeUtil.millisToTimer(EventGame.getCooldown().getRemaining()));
+				lines.add("&cEvent Cooldown: &7" +
+						TimeUtil.millisToTimer(EventGame.getCooldown().getRemaining()));
 			}
 		}
 
-		if (profile.getState() == ProfileState.LOBBY) {
-			if (profile.getParty() != null) {
-				lines.add("&cYour Party");
+		if (profile.getState() == ProfileState.LOBBY && profile.getParty() != null) {
+			Party party = profile.getParty();
+			lines.add("&cYour Party");
 
-				int added = 0;
-				Party party = profile.getParty();
-
-				for (Player otherPlayer : party.getListOfPlayers()) {
-					added++;
-
-					lines.add(" &7" + (party.getLeader().equals(otherPlayer) ? "*" : "-") + " &r" +
-					          otherPlayer.getName());
-
-					if (added >= 4) {
-						break;
-					}
-				}
+			int added = 0;
+			for (Player other : party.getListOfPlayers()) {
+				lines.add(" &7" + (party.getLeader().equals(other) ? "*" : "-") + " &r" + other.getName());
+				if (++added >= 4) break;
 			}
-		} else if (profile.getState() == ProfileState.QUEUEING) {
-			QueueProfile queueProfile = profile.getQueueProfile();
+		}
 
+		if (profile.getState() == ProfileState.QUEUEING) {
+			QueueProfile queueProfile = profile.getQueueProfile();
 			lines.add(CC.SB_BAR);
 			lines.add("&a&oSearching for a match...");
 			lines.add(" ");
@@ -105,9 +92,13 @@ public class ScoreboardAdapter implements BoardAdapter {
 			if (queueProfile.getQueue().isRanked()) {
 				lines.add("&cELO Range: &7" + queueProfile.getMinRange() + " -> " + queueProfile.getMaxRange());
 			}
-		} else if (profile.getState() == ProfileState.FIGHTING || profile.getState() == ProfileState.SPECTATING) {
+		}
+
+		if (profile.getState() == ProfileState.FIGHTING || profile.getState() == ProfileState.SPECTATING) {
 			lines.addAll(profile.getMatch().getScoreboardLines(player));
-		} else if (profile.getState() == ProfileState.EVENT) {
+		}
+
+		if (profile.getState() == ProfileState.EVENT && EventGame.getActiveGame() != null) {
 			lines.addAll(EventGame.getActiveGame().getGameLogic().getScoreboardEntries());
 		}
 
@@ -116,10 +107,4 @@ public class ScoreboardAdapter implements BoardAdapter {
 
 		return lines;
 	}
-
-	@Override
-	public void onScoreboardCreate(Player p0, Scoreboard p1) {
-
-	}
-
 }
