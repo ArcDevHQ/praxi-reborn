@@ -1,0 +1,54 @@
+SCOREBOARD:
+  ENABLED: true
+  TITLE: "&b&lPractice"
+  FOOTER: "&7&o@ArcDevelopment"
+
+  LOBBY:
+    LINES:
+      - "&7&m---------------------"
+      - "&f<date>"
+      - " "
+      - "&fQueue: &b<in-queue>"
+      - "&fPlaying: &b<fighting>"
+      - "&fOnline: &b<online>"
+      - " "
+      - "<footer>"
+      - "&7&m---------------------"
+
+  QUEUE:
+    LINES:
+      - "&7&m---------------------"
+      - "&f<date>"
+      - " "
+      - "&fPlaying: &b<fighting>"
+      - "&fOnline: &b<online>"
+      - " "
+      - "&a&lSearching for a match."
+      - " &fKit: &b<kit>"
+      - " &fElapsed: &b<elapsed>"
+      - " &fMode: &b<mode>"
+      - " "
+      - "<footer>"
+      - "&7&m---------------------"
+
+  FIGHTING:
+    LINES:
+      - "&7&m---------------------"
+      - "&f<date>"
+      - " "
+      - "&fPlaying: &b<fighting>"
+      - "&fOnline: &b<online>"
+      - " "
+      - "<footer>"
+      - "&7&m---------------------"
+
+  EVENT:
+    LINES:
+      - "&7&m---------------------"
+      - "&f<date>"
+      - " "
+      - "&fPlaying: &b<fighting>"
+      - "&fOnline: &b<online>"
+      - " "
+      - "<footer>"
+      - "&7&m---------------------"
