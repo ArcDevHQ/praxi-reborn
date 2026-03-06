@@ -67,6 +67,10 @@ public class Main extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		for (Arena arena : Arena.getArenas()) {
+			arena.save();
+		}
+
 		Match.cleanup();
 		if (mongoClient != null) {
 			mongoClient.close();

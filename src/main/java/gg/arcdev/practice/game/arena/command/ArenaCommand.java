@@ -22,6 +22,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @CommandAlias("arena")
 @CommandPermission("praxi.admin.arena")
@@ -68,8 +69,9 @@ public class ArenaCommand extends BaseCommand {
             return;
         }
 
-        Arena arena = new SharedArena(arenaName, selection.getPoint1(), selection.getPoint2());
+        Arena arena = new SharedArena(arenaName, Objects.requireNonNull(selection.getPoint1()), Objects.requireNonNull(selection.getPoint2()));
         Arena.getArenas().add(arena);
+        arena.save();
 
         player.sendMessage(CC.GOLD + "Created new arena \"" + arenaName + "\"");
     }
