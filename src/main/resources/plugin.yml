@@ -2,3 +2,5 @@ main: gg.arcdev.practice.Main
 name: Practice-EX
 version: '1.0.0'
 author: Arc Development (ft. praxi @ joeleoli)
+softdepend:
+  - Apollo-Bukkit

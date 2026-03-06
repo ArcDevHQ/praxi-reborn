@@ -31,6 +31,9 @@ object Hotbar {
                     durability(config.getInt("${path}DURABILITY"))
                     name(config.getString("${path}NAME"))
                     lore(config.getStringList("${path}LORE"))
+                    if(item == HotbarItem.PARTY_INFORMATION) {
+                        texture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjkyZDVkZjgwNWMyMzkwMjJmZTFiNDVmOTQwODgyYmY0MGI1NTk2NzE5MzdkYzcxZmJjOTZmNjMwMjUwZWJjNCJ9fX0=")
+                    }
                 }.build()
             }.onFailure {
                 println("Failed to parse item ${item.name}")

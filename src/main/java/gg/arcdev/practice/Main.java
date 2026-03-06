@@ -23,6 +23,8 @@ import gg.arcdev.practice.core.profile.Profile;
 import gg.arcdev.practice.core.profile.ProfileListener;
 import gg.arcdev.practice.game.queue.QueueListener;
 import gg.arcdev.practice.game.queue.QueueThread;
+import gg.arcdev.practice.integration.lunar.FightTeamService;
+import gg.arcdev.practice.integration.lunar.LobbyTeamService;
 import gg.arcdev.practice.core.scoreboard.ScoreboardAdapter;
 import gg.arcdev.practice.util.InventoryUtil;
 import gg.arcdev.practice.util.assemble.Assemble;
@@ -57,6 +59,8 @@ public class Main extends JavaPlugin {
 
 	@Getter private ScoreboardAdapter adapter;
 	@Getter private Assemble assemble;
+	@Getter private FightTeamService fightTeamService;
+	@Getter private LobbyTeamService lobbyTeamService;
 
 	@Override
 	public void onEnable() {
@@ -78,6 +82,14 @@ public class Main extends JavaPlugin {
 		}
 
 		Match.cleanup();
+		if (fightTeamService != null) {
+			fightTeamService.shutdown();
+			fightTeamService = null;
+		}
+		if (lobbyTeamService != null) {
+			lobbyTeamService.shutdown();
+			lobbyTeamService = null;
+		}
 		if (mongoClient != null) {
 			mongoClient.close();
 			mongoClient = null;
@@ -113,6 +125,10 @@ public class Main extends JavaPlugin {
 
 		adapter = new ScoreboardAdapter();
 		assemble = new Assemble(this, adapter);
+		fightTeamService = new FightTeamService(this);
+		lobbyTeamService = new LobbyTeamService(this);
+		fightTeamService.start();
+		lobbyTeamService.start();
 
 		new QueueThread().start();
 

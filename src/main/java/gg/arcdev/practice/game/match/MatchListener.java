@@ -14,6 +14,7 @@ import gg.arcdev.practice.util.PlayerUtil;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Matcher;
 
@@ -559,7 +560,7 @@ public class MatchListener implements Listener {
 
 					if (itemStack.getType() == kitItem.getType() &&
 					    itemStack.getDurability() == kitItem.getDurability()) {
-						Matcher matcher = HotbarItem.KIT_SELECTION.getPattern()
+						Matcher matcher = Objects.requireNonNull(HotbarItem.KIT_SELECTION.getPattern())
 								.matcher(itemStack.getItemMeta().getDisplayName());
 
 						if (matcher.find()) {
@@ -602,6 +603,7 @@ public class MatchListener implements Listener {
 						event.setCancelled(true);
 					} else {
 						profile.setEnderpearlCooldown(new Cooldown(16_000));
+						//todo:
 					}
 				}
 			}
