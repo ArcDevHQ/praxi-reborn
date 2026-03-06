@@ -367,10 +367,9 @@ public abstract class Match {
 				logicTask.setNextAction(4);
 			}
 		} else {
+			Hotbar.giveHotbarItems(dead);
 			dead.setAllowFlight(true);
 			dead.setFlying(true);
-
-			Hotbar.giveHotbarItems(dead);
 		}
 	}
 

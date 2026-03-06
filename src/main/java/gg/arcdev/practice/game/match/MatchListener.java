@@ -78,6 +78,11 @@ public class MatchListener implements Listener {
 		if (profile.getState() == ProfileState.FIGHTING) {
 			Match match = profile.getMatch();
 
+			if (isDeadFighter(profile, event.getPlayer())) {
+				event.setCancelled(true);
+				return;
+			}
+
 			if (match.getKit().getGameRules().isBuild() && match.getState() == MatchState.PLAYING_ROUND) {
 				if (match.getKit().getGameRules().isSpleef()) {
 					event.setCancelled(true);
@@ -119,6 +124,11 @@ public class MatchListener implements Listener {
 		if (profile.getState() == ProfileState.FIGHTING) {
 			Match match = profile.getMatch();
 
+			if (isDeadFighter(profile, event.getPlayer())) {
+				event.setCancelled(true);
+				return;
+			}
+
 			if (match.getKit().getGameRules().isBuild() && match.getState() == MatchState.PLAYING_ROUND) {
 				if (match.getKit().getGameRules().isSpleef()) {
 					if (event.getBlock().getType() == Material.SNOW_BLOCK ||
@@ -150,6 +160,11 @@ public class MatchListener implements Listener {
 
 		if (profile.getState() == ProfileState.FIGHTING) {
 			Match match = profile.getMatch();
+
+			if (isDeadFighter(profile, event.getPlayer())) {
+				event.setCancelled(true);
+				return;
+			}
 
 			if (match.getKit().getGameRules().isBuild() && match.getState() == MatchState.PLAYING_ROUND) {
 				Arena arena = match.getArena();
@@ -534,13 +549,18 @@ public class MatchListener implements Listener {
 					return;
 				}
 
+				if (isDeadFighter(profile, player)) {
+					event.setCancelled(true);
+					return;
+				}
+
 				if (itemStack.hasItemMeta() && itemStack.getItemMeta().hasDisplayName()) {
 					ItemStack kitItem = Hotbar.getItems().get(HotbarItem.KIT_SELECTION);
 
 					if (itemStack.getType() == kitItem.getType() &&
 					    itemStack.getDurability() == kitItem.getDurability()) {
-						Matcher matcher = HotbarItem.KIT_SELECTION.getPattern().
-								matcher(itemStack.getItemMeta().getDisplayName());
+						Matcher matcher = HotbarItem.KIT_SELECTION.getPattern()
+								.matcher(itemStack.getItemMeta().getDisplayName());
 
 						if (matcher.find()) {
 							String kitName = matcher.group(2);
@@ -586,6 +606,13 @@ public class MatchListener implements Listener {
 				}
 			}
 		}
+	}
+
+	private boolean isDeadFighter(Profile profile, Player player) {
+		return profile.getState() == ProfileState.FIGHTING &&
+		       profile.getMatch() != null &&
+		       profile.getMatch().getGamePlayer(player) != null &&
+		       profile.getMatch().getGamePlayer(player).isDead();
 	}
 
 }
