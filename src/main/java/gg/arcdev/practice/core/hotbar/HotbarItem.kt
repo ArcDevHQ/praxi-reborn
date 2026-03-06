@@ -10,6 +10,8 @@ enum class HotbarItem(val command: String?) {
     QUEUE_LEAVE(null),
     PARTY_EVENTS(null),
     PARTY_CREATE("party create"),
+    LEADERBOARD("leaderboard"),
+    SETTINGS("settings"),
     PARTY_DISBAND("party disband"),
     PARTY_LEAVE("party leave"),
     PARTY_INFORMATION("party info"),

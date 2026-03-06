@@ -114,62 +114,77 @@ HOTBAR_ITEMS:
   QUEUE_JOIN_UNRANKED:
     MATERIAL: "IRON_SWORD"
     DURABILITY: 0
-    NAME: "&e&lUnranked Queue"
-    LORE: []
+    NAME: "&b&lUnranked Queue"
+    LORE:
+      - "&fRight click to queue &bUnranked"
   QUEUE_JOIN_RANKED:
     MATERIAL: "DIAMOND_SWORD"
     DURABILITY: 0
-    NAME: "&a&lRanked Queue"
-    LORE: []
+    NAME: "&b&lRanked Queue"
+    LORE:
+      - "&fRight click to queue &bRanked"
   QUEUE_LEAVE:
     MATERIAL: "INK_SACK"
     DURABILITY: 1
-    NAME: "&c&lLeave Queue"
-    LORE: []
+    NAME: "&b&lLeave Queue"
+    LORE:
+      - "&fRight click to &cleave queue"
+  LEADERBOARD:
+    MATERIAL: "EMERALD"
+    DURABILITY: 0
+    NAME: "&b&lLeaderboard"
+    LORE:
+      - "&fRight click to open the &bLeaderboards"
+SETTINGS:
+  MATERIAL: "COMPASS"
+  DURABILITY: 0
+  NAME: "&b&lSettings"
+  LORE:
+    - "&fRight click to open the &bSettings"
   PARTY_EVENTS:
     MATERIAL: "DIAMOND_SWORD"
     DURABILITY: 0
-    NAME: "&a&lParty Events"
+    NAME: "&b&lParty Events"
     LORE: []
   PARTY_CREATE:
     MATERIAL: "NAME_TAG"
     DURABILITY: 0
-    NAME: "&9&lCreate Party"
+    NAME: "&b&lCreate Party"
     LORE: []
   PARTY_DISBAND:
     MATERIAL: "INK_SACK"
     DURABILITY: 1
-    NAME: "&c&lDisband Party"
+    NAME: "&b&lDisband Party"
     LORE: []
   PARTY_LEAVE:
     MATERIAL: "INK_SACK"
     DURABILITY: 1
-    NAME: "&c&lLeave Party"
+    NAME: "&b&lLeave Party"
     LORE: []
   PARTY_INFORMATION:
     MATERIAL: "SKULL_ITEM"
     DURABILITY: 3
-    NAME: "&6&lParty Information"
+    NAME: "&b&lParty Information"
     LORE: []
   OTHER_PARTIES:
     MATERIAL: "CHEST"
     DURABILITY: 0
-    NAME: "&9&lOther Parties"
+    NAME: "&b&lOther Parties"
     LORE: []
   KIT_EDITOR:
     MATERIAL: "BOOK"
     DURABILITY: 0
-    NAME: "&d&lKit Editor"
+    NAME: "&b&lKit Editor"
     LORE: []
   SPECTATE_STOP:
     MATERIAL: "INK_SACK"
     DURABILITY: 1
-    NAME: "&c&lStop Spectating"
+    NAME: "&b&lStop Spectating"
     LORE: []
   VIEW_INVENTORY:
     MATERIAL: "BOOK"
     DURABILITY: 0
-    NAME: "&6&lView Inventory"
+    NAME: "&b&lView Inventory"
     LORE: []
   EVENT_JOIN:
     MATERIAL: "NETHER_STAR"
@@ -184,12 +199,12 @@ HOTBAR_ITEMS:
   MAP_SELECTION:
     MATERIAL: "MAP"
     DURABILITY: 0
-    NAME: "&7» &6&l%MAP% &7«"
+    NAME: "&7» &b&l%MAP% &7«"
     LORE: []
   REMATCH_REQUEST:
     MATERIAL: "BLAZE_POWDER"
     DURABILITY: 0
-    NAME: "&2&lRequest Rematch"
+    NAME: "&b&lRequest Rematch"
     LORE: []
   REMATCH_ACCEPT:
     MATERIAL: "DIAMOND"
@@ -199,5 +214,5 @@ HOTBAR_ITEMS:
   KIT_SELECTION:
     MATERIAL: "ENCHANTED_BOOK"
     DURABILITY: 0
-    NAME: "&7» &6&l%KIT% &7«"
+    NAME: "&7» &b&l%KIT% &7«"
     LORE: []

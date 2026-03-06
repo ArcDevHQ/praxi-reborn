@@ -109,21 +109,25 @@ object Hotbar {
             when {
                 activeRematch && activeEvent -> {
                     hotbar[2] = rematchItem(profile)
-                    hotbar[3] = items[HotbarItem.EVENT_JOIN]
+                    hotbar[3] = items[HotbarItem.LEADERBOARD]
+                    hotbar[4] = items[HotbarItem.EVENT_JOIN]
                     hotbar[5] = items[HotbarItem.PARTY_CREATE]
                 }
 
                 activeRematch -> {
                     hotbar[2] = rematchItem(profile)
+                    hotbar[3] = items[HotbarItem.LEADERBOARD]
                     hotbar[4] = items[HotbarItem.PARTY_CREATE]
                 }
 
                 activeEvent -> {
-                    hotbar[3] = items[HotbarItem.EVENT_JOIN]
+                    hotbar[3] = items[HotbarItem.LEADERBOARD]
+                    hotbar[4] = items[HotbarItem.EVENT_JOIN]
                     hotbar[5] = items[HotbarItem.PARTY_CREATE]
                 }
 
                 else -> {
+                    hotbar[3] = items[HotbarItem.LEADERBOARD]
                     hotbar[4] = items[HotbarItem.PARTY_CREATE]
                 }
             }
@@ -133,8 +137,8 @@ object Hotbar {
             val leader = profile.party.leader.uniqueId == profile.uuid
 
             if (leader) {
-                hotbar[0] = items[HotbarItem.PARTY_EVENTS]
                 hotbar[2] = items[HotbarItem.PARTY_INFORMATION]
+                hotbar[3] = items[HotbarItem.PARTY_EVENTS]
                 hotbar[4] = items[HotbarItem.OTHER_PARTIES]
                 hotbar[6] = items[HotbarItem.PARTY_DISBAND]
             } else {
@@ -144,7 +148,9 @@ object Hotbar {
             }
         }
 
-        hotbar[8] = items[HotbarItem.KIT_EDITOR]
+        hotbar[5] = items[HotbarItem.KIT_EDITOR]
+
+        hotbar[8] = items[HotbarItem.SETTINGS]
     }
 
     private fun rematchItem(profile: Profile): ItemStack? {
