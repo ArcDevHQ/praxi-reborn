@@ -18,6 +18,8 @@ import gg.arcdev.practice.game.event.game.map.EventGameMap;
 import gg.arcdev.practice.game.kit.Kit;
 import gg.arcdev.practice.game.kit.commands.KitCommand;
 import gg.arcdev.practice.game.kit.commands.KitsCommand;
+import gg.arcdev.practice.game.leaderboard.RankedLeaderboardMenu;
+import gg.arcdev.practice.game.leaderboard.command.LeaderboardCommand;
 import gg.arcdev.practice.game.party.command.*;
 import lombok.Getter;
 import java.util.Arrays;
@@ -122,7 +124,8 @@ public class CommandRegistry {
         Arrays.asList(
                 new SpectateCommand(),
                 new StopSpectatingCommand(),
-                new ViewInventoryCommand()
+                new ViewInventoryCommand(),
+                new LeaderboardCommand()
         ).forEach(manager::registerCommand);
 
         Arrays.asList(
