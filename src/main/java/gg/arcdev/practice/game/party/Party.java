@@ -166,22 +166,24 @@ public class Party {
 
 		for (Player player : getListOfPlayers()) {
 			builder.append(CC.RESET)
-			       .append(player.getName())
-			       .append(CC.GRAY)
-			       .append(", ");
+					.append(player.getName())
+					.append(CC.GRAY)
+					.append(", ");
 		}
 
-		String[] lines = new String[]{
-				CC.CHAT_BAR,
-				CC.GOLD + "Party Information",
-				CC.BLUE + "Privacy: " + CC.GRAY + privacy.getReadable(),
-				CC.BLUE + "Leader: " + CC.RESET + leader.getName(),
-				CC.BLUE + "Members: " + CC.GRAY + "(" + getPlayers().size() + ") " +
-				builder.substring(0, builder.length() - 2),
-				CC.CHAT_BAR
-		};
+		List<String> lines = CC.translate(new String[]{
+				"&7&m------------------------------------------------",
+				"&b&lParty Information",
+				"",
+				"&fPrivacy: &b" + privacy.getReadable(),
+				"&fLeader: &b" + leader.getName(),
+				"&fMembers &7[&b" + getPlayers().size() + "&7]: &f" + builder.substring(0, builder.length() - 2),
+				"&7&m------------------------------------------------",
+		});
 
-		sendTo.sendMessage(lines);
+		for (String line : lines) {
+			sendTo.sendMessage(line);
+		}
 	}
 
 	public void sendChat(Player player, String message) {
