@@ -24,7 +24,7 @@ import org.bukkit.entity.Player;
 
 public class EventGame {
 
-	@Getter @Setter private static EventGame activeGame;
+	@Getter @Setter public static EventGame activeGame;
 	@Getter @Setter private static Cooldown cooldown = new Cooldown(0);
 
 	@Getter private Event event;

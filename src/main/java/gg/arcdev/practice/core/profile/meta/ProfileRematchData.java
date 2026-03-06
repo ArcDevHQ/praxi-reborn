@@ -7,7 +7,6 @@ import gg.arcdev.practice.game.match.participant.MatchGamePlayer;
 import gg.arcdev.practice.game.participant.GameParticipant;
 import gg.arcdev.practice.core.profile.Profile;
 import gg.arcdev.practice.core.profile.ProfileState;
-import gg.arcdev.practice.core.hotbar.Hotbar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -180,13 +179,22 @@ public class ProfileRematchData {
 			Player player = Bukkit.getPlayer(uuid);
 
 			if (player != null) {
-				Profile profile = Profile.getByUuid(player.getUniqueId());
-				profile.setRematchData(null);
+					Profile profile = Profile.getByUuid(player.getUniqueId());
+					profile.setRematchData(null);
 
-				if (profile.getState() == ProfileState.LOBBY) {
-					Hotbar.giveHotbarItems(player);
+					if (profile.getState() == ProfileState.LOBBY) {
+						refreshHotbar(player);
+					}
 				}
 			}
+		}
+
+	private void refreshHotbar(Player player) {
+		try {
+			Class<?> hotbarClass = Class.forName("gg.arcdev.practice.core.hotbar.Hotbar");
+			hotbarClass.getMethod("giveHotbarItems", Player.class).invoke(null, player);
+		} catch (ReflectiveOperationException exception) {
+			throw new IllegalStateException("Unable to refresh hotbar items.", exception);
 		}
 	}
 
