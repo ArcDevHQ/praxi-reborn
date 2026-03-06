@@ -4,6 +4,7 @@ import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.PaperCommandManager;
 import gg.arcdev.practice.commands.acf.context.ProfileContextResolver;
 import gg.arcdev.practice.commands.SetSpawnCommand;
+import gg.arcdev.practice.core.settings.command.SettingsCommand;
 import gg.arcdev.practice.game.event.commands.admin.*;
 import gg.arcdev.practice.game.event.commands.map.*;
 import gg.arcdev.practice.game.event.commands.user.*;
@@ -88,7 +89,8 @@ public class CommandRegistry {
         Arrays.asList(
                 new DuelCommand(),
                 new DuelAcceptCommand(),
-                new RematchCommand()
+                new RematchCommand(),
+                new SettingsCommand()
         ).forEach(manager::registerCommand);
 
         Arrays.asList(

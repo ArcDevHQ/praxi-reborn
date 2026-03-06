@@ -1,115 +1,141 @@
 MONGO:
-  URI: "mongodb://127.0.0.1:27017"
-  DATABASE: "practice"
-SCOREBOARD:
-  TITLE: "&3&lPractice"
+  URI: mongodb://127.0.0.1:27017
+  DATABASE: practice
+
 JOIN_MESSAGES:
-  - " &7&l* &c&lWelcome to Zonix Practice Season 1!"
-  - " &7&l* &c&lPlease report any issues to an administrator!"
+  - ' '
+  - '&fWelcome to &b&lArc Development'
+  - ' '
+  - '&b┃ &fDiscord: &bhttps://discord.arcdev.gg'
+  - '&b┃ &fStore: &bhttps://arcdev.gg'
+  - '&b┃ &fTwitter: &bhttps://twitter.arcdev.gg'
+  - ' '
+  - '&fEnjoy your stay!'
+  - ' '
+
 KIT_EDITOR:
-  START_RENAMING: "&eNow renaming &a{0}&e... Enter the new name now. &7&o(Chat colors work)"
-  RENAMED: "&eYou have renamed your &a{0} &ekit to &a{1}&e."
-  NAME_TOO_LONG: "&cYour kit name cannot be more than 16 characters long."
+  START_RENAMING: '&eNow renaming &a{0}&e... Enter the new name now. &7&o(Chat colors
+    work)'
+  RENAMED: '&eYou have renamed your &a{0} &ekit to &a{1}&e.'
+  NAME_TOO_LONG: '&cYour kit name cannot be more than 16 characters long.'
+
 PARTY:
-  CREATE: "&9You have created a party."
-  DISBAND: "&9Your party has been disbanded."
+  CREATE: '&9You have created a party.'
+  DISBAND: '&9Your party has been disbanded.'
   INVITE:
-    - "{1} &9has sent you an invite to their party."
-    - "%CLICKABLE%&6Click here or type &b/party join {0} &6to accept."
-  INVITE_HOVER: "&6Click here to accept."
-  INVITE_BROADCAST: "{0} &9has been invited to your party."
-  JOIN: "{0} &9has joined your party."
-  LEAVE: "{0} &9has {1} your party."
-  PRIVACY_CHANGE: "&9Your party privacy has been set to &a{0}&e."
-  CHAT_PREFIX: "&6[Party] &r"
+    - '{1} &9has sent you an invite to their party.'
+    - '%CLICKABLE%&6Click here or type &b/party join {0} &6to accept.'
+  INVITE_HOVER: '&6Click here to accept.'
+  INVITE_BROADCAST: '{0} &9has been invited to your party.'
+  JOIN: '{0} &9has joined your party.'
+  LEAVE: '{0} &9has {1} your party.'
+  PRIVACY_CHANGE: '&9Your party privacy has been set to &a{0}&e.'
+  CHAT_PREFIX: '&6[Party] &r'
+
 EVENT:
   HELP:
-    - "&7&m------------------------------------------------"
-    - "&6Event Help"
-    - "&9/events &7- &fShow events that can be hosted"
-    - "&9/event host <type> &7- &fHost an event by name"
-    - "&9/event info &7- &fShows active event information"
-    - "&9/event join &7- &fJoin the event"
-    - "&9/event leave &7- &fLeave the event"
-    - "&7&m------------------------------------------------"
+    - '&7&m------------------------------------------------'
+    - '&6Event Help'
+    - '&9/events &7- &fShow events that can be hosted'
+    - '&9/event host <type> &7- &fHost an event by name'
+    - '&9/event info &7- &fShows active event information'
+    - '&9/event join &7- &fJoin the event'
+    - '&9/event leave &7- &fLeave the event'
+    - '&7&m------------------------------------------------'
+
   JOIN_BROADCAST:
-    - "&7███████"
-    - "&7██&4███&7██"
-    - "&7██&4█&7████  &6&l[{0} Event]"
-    - "&7██&4███&7██  &r{1} &eis hosting an event!"
-    - "&7██&4█&7████  &r&a&lClick to join!"
-    - "&7██&4███&7██"
-    - "&7███████"
-  JOIN_HOVER: "&eClick to join,"
-  PLAYER_JOIN: "&7[&a&lEvent&7] &r{0} &ehas joined the event. &7&o({1}/{2})"
-  PLAYER_LEAVE: "&7[&a&lEvent&7] &r{0} &ehas left the event. &7&o({1}/{2})"
-  PLAYER_VOTE: "&7[&a&lEvent&7] &r{0} &ehas voted for the &a{1} &emap. &7&o({2} votes)"
-  ROUND_START: "&7[&a&lEvent&7] &a{1} &evs &a{2}"
-  ROUND_START_TIMER: "&7[&a&lEvent&7] &aRound {0} &ewill start in &a{1} {2}&e."
-  ROUND_ELIMINATION: "&7[&a&lEvent&7] &a{0} &e{1} eliminated."
-  ROUND_OPPONENT: "&7[&a&lEvent&7] &eYour Opponent{0}: &a{1}"
+    - '&7███████'
+    - '&7██&4███&7██'
+    - '&7██&4█&7████  &6&l[{0} Event]'
+    - '&7██&4███&7██  &r{1} &eis hosting an event!'
+    - '&7██&4█&7████  &r&a&lClick to join!'
+    - '&7██&4███&7██'
+    - '&7███████'
+  JOIN_HOVER: '&eClick to join,'
+  PLAYER_JOIN: '&7[&a&lEvent&7] &r{0} &ehas joined the event. &7&o({1}/{2})'
+  PLAYER_LEAVE: '&7[&a&lEvent&7] &r{0} &ehas left the event. &7&o({1}/{2})'
+  PLAYER_VOTE: '&7[&a&lEvent&7] &r{0} &ehas voted for the &a{1} &emap. &7&o({2} votes)'
+  ROUND_START: '&7[&a&lEvent&7] &a{1} &evs &a{2}'
+  ROUND_START_TIMER: '&7[&a&lEvent&7] &aRound {0} &ewill start in &a{1} {2}&e.'
+  ROUND_ELIMINATION: '&7[&a&lEvent&7] &a{0} &e{1} eliminated.'
+  ROUND_OPPONENT: '&7[&a&lEvent&7] &eYour Opponent{0}: &a{1}'
   STARTED:
-    - "&7[&a&lEvent&7] &a{0} &ehas started. &7&o({1}/{2})"
+    - '&7[&a&lEvent&7] &a{0} &ehas started. &7&o({1}/{2})'
   FINISHED:
-    - "&7███████"
-    - "&7██&4███&7██"
-    - "&7██&4█&7████  &6&l[{0} Event]"
-    - "&7██&4███&7██  &r{1} won the event!"
-    - "&7██&4█&7████  &r&6&lGood game!"
-    - "&7██&4███&7██"
-    - "&7███████"
+    - '&7███████'
+    - '&7██&4███&7██'
+    - '&7██&4█&7████  &6&l[{0} Event]'
+    - '&7██&4███&7██  &r{1} won the event!'
+    - '&7██&4█&7████  &r&6&lGood game!'
+    - '&7██&4███&7██'
+    - '&7███████'
+
 DUEL:
-  SENT: "&6You sent a &a{0} &6duel request to &a{1} &6on arena &a{2}&6."
-  SENT_PARTY: "&6Your party sent a &a{0} &6duel request to &a{1}''s party &6(&a{2}&6) &6on arena &a{3}&6."
+  SENT: '&6You sent a &a{0} &6duel request to &a{1} &6on arena &a{2}&6.'
+  SENT_PARTY: '&6Your party sent a &a{0} &6duel request to &a{1}''''s party &6(&a{2}&6)
+    &6on arena &a{3}&6.'
   RECEIVED:
-    - "&a{1} &6sent you a &a{0} &6duel request on arena &a{2}&6."
-    - "%CLICKABLE%"
+    - '&a{1} &6sent you a &a{0} &6duel request on arena &a{2}&6.'
+    - '%CLICKABLE%'
   RECEIVED_PARTY:
-    - "&a{1}''s party &6(&a{2}&6) &6sent your party a &a{0} &6duel request on arena &a{3}&6."
-    - "%CLICKABLE%"
-  RECEIVED_HOVER: "&eClick to accept this duel request."
-  RECEIVED_CLICKABLE: "&6Click here or type &b/duel accept {0} &6to accept."
+    - '&a{1}''''s party &6(&a{2}&6) &6sent your party a &a{0} &6duel request on arena
+    &a{3}&6.'
+    - '%CLICKABLE%'
+  RECEIVED_HOVER: '&eClick to accept this duel request.'
+  RECEIVED_CLICKABLE: '&6Click here or type &b/duel accept {0} &6to accept.'
+
 QUEUE:
-  JOIN_UNRANKED: "&eYou have been added to the &aUnranked {0} &equeue."
-  LEAVE_UNRANKED: "&eYou have been removed from &aUnranked {0} &equeue."
-  JOIN_RANKED: "&eYou have been added to the &aRanked {0} &equeue. &7&o[{1} ELO]"
-  LEAVE_RANKED: "&eYou have been removed from &aRanked {0} &equeue."
-  RANGE_INCREMENT: "&eSearching in ELO range &a[{1} -> {2}]&e..."
+  JOIN_UNRANKED: '&eYou have been added to the &aUnranked {0} &equeue.'
+  LEAVE_UNRANKED: '&eYou have been removed from &aUnranked {0} &equeue.'
+  JOIN_RANKED: '&eYou have been added to the &aRanked {0} &equeue. &7&o[{1} ELO]'
+  LEAVE_RANKED: '&eYou have been removed from &aRanked {0} &equeue.'
+  RANGE_INCREMENT: '&eSearching in ELO range &a[{1} -> {2}]&e...'
+
+OPTIONS:
+  RECEIVE_DUEL_REQUESTS_ENABLED: "&aYou will now receive duel requests."
+  RECEIVE_DUEL_REQUESTS_DISABLED: "&cYou will no longer receive duel requests."
+  SPECTATORS_ENABLED: "&aYou will now see spectators."
+  SPECTATORS_DISABLED: "&cYou will no longer see spectators."
+
 MATCH:
-  GIVE_KIT: "&eGiving you the &a{0} &ekit."
-  ENDERPEARL_COOLDOWN: "&cYou may not use your &c&lEnderpearl &cfor another &c&l{0} second{1}&c."
-  ENDERPEARL_COOLDOWN_EXPIRED: "&eYour enderpearl cooldown has now expired."
-  START_SPECTATING: "&eYou are spectating {0}{1} &evs {2}{3}"
-  START_SPECTATING_RANKED: "&eYou are spectating {0}{1} &7({2}) &evs {3}{4} &7({5})"
-  NOW_SPECTATING: "&b{0} &eis now spectating."
-  NO_LONGER_SPECTATING: "&b{0} &eis no longer spectating."
-  PLAYING_ARENA: "&eYou are playing on arena &a{0}&e."
-  START_TIMER: "&eThe match starts in &a{0} &esecond{1}..."
-  STARTED: "&eThe match has started."
+  GIVE_KIT: '&eGiving you the &a{0} &ekit.'
+  ENDERPEARL_COOLDOWN: '&cYou may not use your &c&lEnderpearl &cfor another &c&l{0}
+    second{1}&c.'
+  ENDERPEARL_COOLDOWN_EXPIRED: '&eYour enderpearl cooldown has now expired.'
+  START_SPECTATING: '&eYou are spectating {0}{1} &evs {2}{3}'
+  START_SPECTATING_RANKED: '&eYou are spectating {0}{1} &7({2}) &evs {3}{4} &7({5})'
+  NOW_SPECTATING: '&b{0} &eis now spectating.'
+  NO_LONGER_SPECTATING: '&b{0} &eis no longer spectating.'
+  PLAYING_ARENA: '&eYou are playing on arena &a{0}&e.'
+  START_TIMER: '&eThe match starts in &a{0} &esecond{1}...'
+  STARTED: '&eThe match has started.'
   END_DETAILS:
-    - "&7&m------------------------------------------------"
-    - "&6Match Information &7(click to view)"
-    - "%INVENTORIES%"
-    - "%ELO_CHANGES%"
-    - "&7&m------------------------------------------------"
-  END_WINNER_INVENTORY: "&aWinner{0}: "
-  END_LOSER_INVENTORY: "&cLoser{0}: "
-  CLICK_TO_VIEW_NAME: "&e{0}"
-  CLICK_TO_VIEW_HOVER: "&eClick to view &b{0}&e''s inventory."
+    - '&7&m------------------------------------------------'
+    - '&6Match Information &7(click to view)'
+    - '%INVENTORIES%'
+    - '%ELO_CHANGES%'
+    - '&7&m------------------------------------------------'
+  END_WINNER_INVENTORY: '&aWinner{0}: '
+  END_LOSER_INVENTORY: '&cLoser{0}: '
+  CLICK_TO_VIEW_NAME: '&e{0}'
+  CLICK_TO_VIEW_HOVER: '&eClick to view &b{0}&e''''s inventory.'
   ELO_CHANGES:
-    - "&7&oELO Changes: &a{0} +{1} ({2}) &c{3} +{4} ({5})"
-  PLAYER_KILLED: "{0} &7was slain by {1}&7."
-  PLAYER_DIED: "{0} &7committed suicide."
-  ROUNDS_TO_WIN: ""
+    - '&7&oELO Changes: &a{0} +{1} ({2}) &c{3} +{4} ({5})'
+  PLAYER_KILLED: '{0} &7was slain by {1}&7.'
+  PLAYER_DIED: '{0} &7committed suicide.'
+  ROUNDS_TO_WIN: ''
+
 REMATCH:
   SENT_REQUEST:
-    - "&eYou have sent &a{0} &ea rematch on arena &a{1}&e."
+    - '&eYou have sent &a{0} &ea rematch on arena &a{1}&e.'
   RECEIVED_REQUEST:
-    - "&a{0} &ehas sent you a rematch on arena &a{1}&e."
-    - "&6Click here or type &b/rematch &6to accept the request."
-  RECEIVED_REQUEST_HOVER: "&6Click to accept."
-ARROW_DAMAGE_INDICATOR: "&7[&9&lArrow Range &e({0})&7] &e{1} &9is now at &c{2}&4{3}&e."
-VIEWING_INVENTORY: "&eYou are viewing &b{0}&e''s inventory..."
+    - '&a{0} &ehas sent you a rematch on arena &a{1}&e.'
+    - '&6Click here or type &b/rematch &6to accept the request.'
+  RECEIVED_REQUEST_HOVER: '&6Click to accept.'
+
+ARROW_DAMAGE_INDICATOR: '&7[&9&lArrow Range &e({0})&7] &e{1} &9is now at &c{2}&4{3}&e.'
+VIEWING_INVENTORY: '&eYou are viewing &b{0}&e''''s inventory...'
+
 HOTBAR_ITEMS:
   QUEUE_JOIN_UNRANKED:
     MATERIAL: "IRON_SWORD"
@@ -117,102 +143,135 @@ HOTBAR_ITEMS:
     NAME: "&b&lUnranked Queue"
     LORE:
       - "&fRight click to queue &bUnranked"
+
   QUEUE_JOIN_RANKED:
     MATERIAL: "DIAMOND_SWORD"
     DURABILITY: 0
     NAME: "&b&lRanked Queue"
     LORE:
       - "&fRight click to queue &bRanked"
+
   QUEUE_LEAVE:
     MATERIAL: "INK_SACK"
     DURABILITY: 1
-    NAME: "&b&lLeave Queue"
+    NAME: "&c&lLeave Queue"
     LORE:
       - "&fRight click to &cleave queue"
+
   LEADERBOARD:
     MATERIAL: "EMERALD"
     DURABILITY: 0
     NAME: "&b&lLeaderboard"
     LORE:
       - "&fRight click to open the &bLeaderboards"
-SETTINGS:
-  MATERIAL: "COMPASS"
-  DURABILITY: 0
-  NAME: "&b&lSettings"
-  LORE:
-    - "&fRight click to open the &bSettings"
+
+  SETTINGS:
+    MATERIAL: "COMPASS"
+    DURABILITY: 0
+    NAME: "&b&lSettings"
+    LORE:
+      - "&fRight click to open the &bSettings"
+
   PARTY_EVENTS:
     MATERIAL: "DIAMOND_SWORD"
     DURABILITY: 0
     NAME: "&b&lParty Events"
     LORE: []
+
   PARTY_CREATE:
     MATERIAL: "NAME_TAG"
     DURABILITY: 0
     NAME: "&b&lCreate Party"
-    LORE: []
+    LORE:
+      - "&fRight click to &acreate&f a &bParty"
+
   PARTY_DISBAND:
     MATERIAL: "INK_SACK"
     DURABILITY: 1
-    NAME: "&b&lDisband Party"
-    LORE: []
+    NAME: "&c&lDisband Party"
+    LORE:
+      - "&fRight click to &cDisband&f your &bParty"
+
   PARTY_LEAVE:
     MATERIAL: "INK_SACK"
     DURABILITY: 1
-    NAME: "&b&lLeave Party"
-    LORE: []
+    NAME: "&c&lLeave Party"
+    LORE:
+      - "&fRight click to &cLeave&f the &bParty"
+
   PARTY_INFORMATION:
     MATERIAL: "SKULL_ITEM"
     DURABILITY: 3
     NAME: "&b&lParty Information"
-    LORE: []
+    LORE:
+      - "&fRight click to &aview &bParty Information"
+
   OTHER_PARTIES:
     MATERIAL: "CHEST"
     DURABILITY: 0
     NAME: "&b&lOther Parties"
-    LORE: []
+    LORE:
+      - "&fRight click to &aview &bOther Parties"
+
   KIT_EDITOR:
     MATERIAL: "BOOK"
     DURABILITY: 0
     NAME: "&b&lKit Editor"
-    LORE: []
+    LORE:
+      - "&fRight click to &6edit &bKit layouts"
+
   SPECTATE_STOP:
     MATERIAL: "INK_SACK"
     DURABILITY: 1
-    NAME: "&b&lStop Spectating"
-    LORE: []
+    NAME: "&c&lStop Spectating"
+    LORE:
+      - "&fRight click to &cstop &bSpectating"
+
   VIEW_INVENTORY:
     MATERIAL: "BOOK"
     DURABILITY: 0
     NAME: "&b&lView Inventory"
-    LORE: []
+    LORE:
+      - "&fRight click to &aview &bInventory"
+
   EVENT_JOIN:
     MATERIAL: "NETHER_STAR"
     DURABILITY: 0
     NAME: "&b&lJoin Event"
-    LORE: []
+    LORE:
+      - "&fRight click to &ajoin &fan &bEvent"
+
   EVENT_LEAVE:
     MATERIAL: "NETHER_STAR"
     DURABILITY: 0
-    NAME: "&b&lLeave Event"
-    LORE: []
+    NAME: "&c&lLeave Event"
+    LORE:
+      - "&fRight click to &cLeave &fthe &bEvent"
+
   MAP_SELECTION:
     MATERIAL: "MAP"
     DURABILITY: 0
     NAME: "&7» &b&l%MAP% &7«"
-    LORE: []
+    LORE:
+      - "&fRight click to &aselect &fa &bMap"
+
   REMATCH_REQUEST:
     MATERIAL: "BLAZE_POWDER"
     DURABILITY: 0
-    NAME: "&b&lRequest Rematch"
-    LORE: []
+    NAME: "&6&lRequest Rematch"
+    LORE:
+      - "&fRight click to &6request &fa &bRematch"
+
   REMATCH_ACCEPT:
     MATERIAL: "DIAMOND"
     DURABILITY: 0
-    NAME: "&b&lAccept Rematch"
-    LORE: []
+    NAME: "&6&lAccept Rematch"
+    LORE:
+      - "&fRight click to &aaccept &bRematch"
+
   KIT_SELECTION:
     MATERIAL: "ENCHANTED_BOOK"
     DURABILITY: 0
     NAME: "&7» &b&l%KIT% &7«"
-    LORE: []
+    LORE:
+      - "&fRight click to &aselect &bKit"
