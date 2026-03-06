@@ -3,6 +3,7 @@ package gg.arcdev.practice.commands.user.duels;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.Name;
 import gg.arcdev.practice.core.profile.Profile;
 import gg.arcdev.practice.game.duel.DuelProcedure;
 import gg.arcdev.practice.game.duel.DuelRequest;
@@ -10,11 +11,11 @@ import gg.arcdev.practice.game.duel.menu.DuelSelectKitMenu;
 import gg.arcdev.practice.util.CC;
 import org.bukkit.entity.Player;
 
-@CommandAlias("duel")
 public class DuelCommand extends BaseCommand {
 
+	@CommandAlias("duel")
 	@Default
-	public void onDuel(Player sender, Profile target) {
+	public void onDuel(Player sender, @Name("player") Profile target) {
 		if (target == null) {
 			sender.sendMessage(CC.RED + "A player with that name could not be found.");
 			return;

@@ -3,6 +3,7 @@ package gg.arcdev.practice.commands.user.duels;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.Subcommand;
 import gg.arcdev.practice.core.profile.Profile;
 import gg.arcdev.practice.game.arena.Arena;
 import gg.arcdev.practice.game.duel.DuelRequest;
@@ -15,10 +16,11 @@ import gg.arcdev.practice.game.party.Party;
 import gg.arcdev.practice.util.CC;
 import org.bukkit.entity.Player;
 
-@CommandAlias("duel accept")
+@CommandAlias("duel")
 public class DuelAcceptCommand extends BaseCommand {
 
 	@Default
+	@Subcommand("accept")
 	public void onAccept(Player player, Profile target) {
 		if (target == null) {
 			player.sendMessage(CC.RED + "That player is no longer online.");
