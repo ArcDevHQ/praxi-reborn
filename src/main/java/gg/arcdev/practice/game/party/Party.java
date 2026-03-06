@@ -91,6 +91,10 @@ public class Party {
 		sendMessage(Locale.PARTY_INVITE_BROADCAST.format(getColoredName(target)));
 	}
 
+	public void invite(Profile profile) {
+		invite(profile.getPlayer());
+	}
+
 	public void join(Player player) {
 		invites.removeIf(invite -> invite.getUuid().equals(player.getUniqueId()));
 		players.add(player.getUniqueId());
@@ -132,6 +136,10 @@ public class Party {
 		for (Player otherPlayer : getListOfPlayers()) {
 			VisibilityLogic.handle(otherPlayer, player);
 		}
+	}
+
+	public void leave(Profile profile, boolean kick) {
+		leave(profile.getPlayer(), kick);
 	}
 
 	public void disband() {
