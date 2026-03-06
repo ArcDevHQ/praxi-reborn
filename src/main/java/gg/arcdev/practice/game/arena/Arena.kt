@@ -57,7 +57,7 @@ open class Arena(
 
         @JvmStatic
         fun init() {
-            val configuration: FileConfiguration = Main.getInstance().getArenasConfig().configuration
+            val configuration: FileConfiguration = Main.getInstance().arenasConfig.configuration
             val section = configuration.getConfigurationSection("arenas") ?: run {
                 Main.getInstance().logger.info("Loaded 0 arenas")
                 return
@@ -66,8 +66,18 @@ open class Arena(
             for (arenaName in section.getKeys(false)) {
                 val path = "arenas.$arenaName"
                 val arenaType = ArenaType.valueOf(configuration.getString("$path.type") ?: continue)
-                val location1 = LocationUtil.deserialize(configuration.getString("$path.cuboid.location1")) ?: continue
-                val location2 = LocationUtil.deserialize(configuration.getString("$path.cuboid.location2")) ?: continue
+                val serializedLocation1 = configuration.getString("$path.cuboid.location1")
+                val serializedLocation2 = configuration.getString("$path.cuboid.location2")
+                val location1 = LocationUtil.deserialize(serializedLocation1)
+                val location2 = LocationUtil.deserialize(serializedLocation2)
+
+                if (location1 == null || location2 == null) {
+                    Main.getInstance().logger.warning(
+                        "Skipping arena \"$arenaName\" because one or more cuboid worlds could not be resolved. " +
+                            "location1=$serializedLocation1, location2=$serializedLocation2"
+                    )
+                    continue
+                }
 
                 val arena = when (arenaType) {
                     ArenaType.STANDALONE -> StandaloneArena(arenaName, location1, location2)

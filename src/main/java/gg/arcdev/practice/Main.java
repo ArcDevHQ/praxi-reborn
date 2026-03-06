@@ -30,11 +30,17 @@ import gg.arcdev.practice.util.config.BasicConfigurationFile;
 import gg.arcdev.practice.util.menu.MenuListener;
 import com.mongodb.client.MongoDatabase;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.Material;
+import org.bukkit.WorldCreator;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class Main extends JavaPlugin {
 
@@ -92,6 +98,7 @@ public class Main extends JavaPlugin {
 	private void initializeServices() {
 		essentials = new Essentials(this);
 		loadMongo();
+		preloadArenaWorlds();
 	}
 
 	private void initializeModules() {
@@ -143,6 +150,52 @@ public class Main extends JavaPlugin {
 			world.setDifficulty(Difficulty.HARD);
 			essentials.clearEntities(world);
 		});
+	}
+
+	private void preloadArenaWorlds() {
+		ConfigurationSection section = arenasConfig.getConfiguration().getConfigurationSection("arenas");
+		if (section == null) {
+			return;
+		}
+
+		Set<String> worldNames = new LinkedHashSet<>();
+
+		for (String arenaName : section.getKeys(false)) {
+			String path = "arenas." + arenaName;
+			addWorldName(worldNames, arenasConfig.getConfiguration().getString(path + ".cuboid.location1"));
+			addWorldName(worldNames, arenasConfig.getConfiguration().getString(path + ".cuboid.location2"));
+			addWorldName(worldNames, arenasConfig.getConfiguration().getString(path + ".spawnA"));
+			addWorldName(worldNames, arenasConfig.getConfiguration().getString(path + ".spawnB"));
+		}
+
+		File worldContainer = Bukkit.getWorldContainer();
+
+		for (String worldName : worldNames) {
+			if (Bukkit.getWorld(worldName) != null) {
+				continue;
+			}
+
+			File worldFolder = new File(worldContainer, worldName);
+			if (!worldFolder.exists() || !worldFolder.isDirectory()) {
+				getLogger().warning("Arena world \"" + worldName + "\" is referenced in arenas.yml but is not loaded.");
+				continue;
+			}
+
+			Bukkit.createWorld(new WorldCreator(worldName));
+		}
+	}
+
+	private void addWorldName(Set<String> worldNames, String serializedLocation) {
+		if (serializedLocation == null || serializedLocation.equalsIgnoreCase("null")) {
+			return;
+		}
+
+		int separatorIndex = serializedLocation.indexOf(':');
+		if (separatorIndex <= 0) {
+			return;
+		}
+
+		worldNames.add(serializedLocation.substring(0, separatorIndex));
 	}
 
 	private void loadMongo() {
