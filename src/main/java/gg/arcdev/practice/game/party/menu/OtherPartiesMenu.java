@@ -2,39 +2,48 @@ package gg.arcdev.practice.game.party.menu;
 
 import gg.arcdev.practice.game.party.Party;
 import gg.arcdev.practice.core.profile.Profile;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import lombok.AllArgsConstructor;
 import gg.arcdev.practice.util.CC;
 import gg.arcdev.practice.util.ItemBuilder;
 import gg.arcdev.practice.util.menu.Button;
+import gg.arcdev.practice.util.menu.button.DisplayButton;
 import gg.arcdev.practice.util.menu.pagination.PaginatedMenu;
-import org.bukkit.ChatColor;
+import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.*;
+
 public class OtherPartiesMenu extends PaginatedMenu {
+
+	{
+		setPlaceholder(true);
+
+		ItemStack placeholder = new ItemBuilder(Material.STAINED_GLASS_PANE)
+				.durability(7)
+				.name(" ")
+				.build();
+
+		setPlaceholderButton(new DisplayButton(placeholder, true));
+	}
 
 	@Override
 	public String getPrePaginatedTitle(Player player) {
-		return "&9&lOther Parties";
+		return CC.translate("&8» &b&lOther Parties");
 	}
 
 	@Override
 	public Map<Integer, Button> getAllPagesButtons(Player player) {
-		Profile profile = Profile.getByUuid(player.getUniqueId());
 
+		Profile profile = Profile.getByUuid(player.getUniqueId());
 		Map<Integer, Button> buttons = new HashMap<>();
 
-		Party.getParties().forEach(party -> {
+		for (Party party : Party.getParties()) {
 			if (!party.equals(profile.getParty())) {
 				buttons.put(buttons.size(), new PartyDisplayButton(party));
 			}
-		});
+		}
 
 		return buttons;
 	}
@@ -46,45 +55,53 @@ public class OtherPartiesMenu extends PaginatedMenu {
 
 		@Override
 		public ItemStack getButtonItem(Player player) {
+
 			List<String> lore = new ArrayList<>();
-			int added = 0;
+			int shown = 0;
 
 			for (Player partyPlayer : party.getListOfPlayers()) {
-				if (added >= 10) {
-					break;
-				}
 
-				lore.add(CC.GRAY + " - " + CC.RESET + partyPlayer.getPlayer().getName());
+				if (shown >= 10) break;
 
-				added++;
+				lore.add("&b| &f" + partyPlayer.getName());
+				shown++;
 			}
 
-			if (party.getPlayers().size() != added) {
-				lore.add(CC.GRAY + " and " + (party.getPlayers().size() - added) + " others...");
+			if (party.getPlayers().size() > shown) {
+				lore.add("&7and " + (party.getPlayers().size() - shown) + " others...");
 			}
+
+			lore.add("");
+			lore.add("&eClick to duel this party");
 
 			return new ItemBuilder(Material.SKULL_ITEM)
-					.name("&6Party of &r" + party.getLeader().getName())
-					.amount(party.getPlayers().size())
 					.durability(3)
+					.name("&b&lParty of &f" + party.getLeader().getName())
+					.amount(party.getPlayers().size())
 					.lore(lore)
 					.build();
 		}
 
 		@Override
 		public void clicked(Player player, ClickType clickType) {
+
 			Profile profile = Profile.getByUuid(player.getUniqueId());
 
-			if (profile.getParty() != null) {
-				if (!profile.getParty().equals(party)) {
-					if (profile.getParty().getLeader().equals(player)) {
-						player.chat("/duel " + party.getLeader().getName());
-					} else {
-						player.sendMessage(ChatColor.RED + "You are not the leader of your party.");
-					}
-				}
+			if (profile.getParty() == null) {
+				player.sendMessage(CC.RED + "You are not in a party.");
+				return;
 			}
-		}
 
+			if (profile.getParty().equals(party)) {
+				return;
+			}
+
+			if (!profile.getParty().getLeader().equals(player)) {
+				player.sendMessage(CC.RED + "You are not the leader of your party.");
+				return;
+			}
+
+			player.chat("/duel " + party.getLeader().getName());
+		}
 	}
 }

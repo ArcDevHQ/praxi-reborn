@@ -2,30 +2,50 @@ package gg.arcdev.practice.game.party.menu;
 
 import gg.arcdev.practice.game.party.PartyEvent;
 import gg.arcdev.practice.core.profile.Profile;
-import java.util.HashMap;
-import java.util.Map;
-import lombok.AllArgsConstructor;
 import gg.arcdev.practice.util.CC;
 import gg.arcdev.practice.util.ItemBuilder;
 import gg.arcdev.practice.util.menu.Button;
 import gg.arcdev.practice.util.menu.Menu;
+import gg.arcdev.practice.util.menu.button.DisplayButton;
+import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class PartyEventSelectEventMenu extends Menu {
+
+	{
+		setPlaceholder(true);
+
+		ItemStack placeholder = new ItemBuilder(Material.STAINED_GLASS_PANE)
+				.durability(7)
+				.name(" ")
+				.build();
+
+		setPlaceholderButton(new DisplayButton(placeholder, true));
+	}
 
 	@Override
 	public String getTitle(Player player) {
-		return "&a&lSelect an event";
+		return CC.translate("&8» &b&lParty Events");
+	}
+
+	@Override
+	public int getSize() {
+		return 45;
 	}
 
 	@Override
 	public Map<Integer, Button> getButtons(Player player) {
 		Map<Integer, Button> buttons = new HashMap<>();
-		buttons.put(3, new SelectEventButton(PartyEvent.FFA));
-		buttons.put(5, new SelectEventButton(PartyEvent.SPLIT));
+
+		buttons.put(20, new SelectEventButton(PartyEvent.FFA));
+		buttons.put(24, new SelectEventButton(PartyEvent.SPLIT));
+
 		return buttons;
 	}
 
@@ -36,8 +56,19 @@ public class PartyEventSelectEventMenu extends Menu {
 
 		@Override
 		public ItemStack getButtonItem(Player player) {
-			return new ItemBuilder(partyEvent == PartyEvent.FFA ? Material.QUARTZ : Material.REDSTONE)
-					.name("&a&l" + partyEvent.getName())
+
+			Material material = partyEvent == PartyEvent.FFA
+					? Material.DIAMOND_SWORD
+					: Material.GOLD_SWORD;
+
+			return new ItemBuilder(material)
+					.name("&b&l" + partyEvent.getName())
+					.lore(
+							"&7Start a party event using",
+							"&7the &f" + partyEvent.getName() + " &7mode.",
+							"",
+							"&bClick to select"
+					)
 					.build();
 		}
 
@@ -52,7 +83,5 @@ public class PartyEventSelectEventMenu extends Menu {
 
 			new PartyEventSelectKitMenu(partyEvent).openMenu(player);
 		}
-
 	}
-
 }
