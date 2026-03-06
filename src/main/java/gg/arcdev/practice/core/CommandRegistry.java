@@ -21,6 +21,7 @@ import gg.arcdev.practice.game.kit.commands.KitsCommand;
 import gg.arcdev.practice.game.party.command.*;
 import lombok.Getter;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class CommandRegistry {
 
@@ -114,7 +115,7 @@ public class CommandRegistry {
                 new KitsCommand()
         ).forEach(manager::registerCommand);
 
-        Arrays.asList(
+        Collections.singletonList(
                 new PartyCommand()
         ).forEach(manager::registerCommand);
 

@@ -1,0 +1,8 @@
+.idea/
+target/
+
+# Maven wrapper outputs
+*.log
+
+# macOS
+.DS_Store
