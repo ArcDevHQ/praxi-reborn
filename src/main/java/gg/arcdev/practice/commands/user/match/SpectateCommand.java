@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 public class SpectateCommand extends BaseCommand {
 
 	@Default
-	public void onSpectate(Player player, Player target) {
+	public void onSpectate(Player player, Profile target) {
 		if (player.hasMetadata("frozen")) {
 			player.sendMessage(CC.RED + "You cannot spectate while frozen.");
 			return;
@@ -35,18 +35,17 @@ public class SpectateCommand extends BaseCommand {
 			return;
 		}
 
-		Profile targetProfile = Profile.getByUuid(target.getUniqueId());
 
-		if (targetProfile == null || targetProfile.getState() != ProfileState.FIGHTING) {
+		if (target.getState() != ProfileState.FIGHTING) {
 			player.sendMessage(CC.RED + "That player is not in a match.");
 			return;
 		}
 
-		if (!targetProfile.getOptions().allowSpectators()) {
+		if (!target.getOptions().allowSpectators()) {
 			player.sendMessage(CC.RED + "That player is not allowing spectators.");
 			return;
 		}
 
-		targetProfile.getMatch().addSpectator(player, target);
+		target.getMatch().addSpectator(player, target.getPlayer());
 	}
 }

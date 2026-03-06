@@ -19,7 +19,7 @@ import org.bukkit.entity.Player;
 public class DuelAcceptCommand extends BaseCommand {
 
 	@Default
-	public void onAccept(Player player, Player target) {
+	public void onAccept(Player player, Profile target) {
 		if (target == null) {
 			player.sendMessage(CC.RED + "That player is no longer online.");
 			return;
@@ -30,7 +30,7 @@ public class DuelAcceptCommand extends BaseCommand {
 			return;
 		}
 
-		if (target.hasMetadata("frozen")) {
+		if (target.getPlayer().hasMetadata("frozen")) {
 			player.sendMessage(CC.RED + "You cannot duel a frozen player.");
 			return;
 		}
@@ -42,14 +42,14 @@ public class DuelAcceptCommand extends BaseCommand {
 			return;
 		}
 
-		Profile targetProfile = Profile.getByUuid(target.getUniqueId());
+		Profile targetProfile = Profile.getByUuid(target.getPlayer().getUniqueId());
 
 		if (targetProfile.isBusy()) {
-			player.sendMessage(target.getDisplayName() + CC.RED + " is currently busy.");
+			player.sendMessage(target.getPlayer().getDisplayName() + CC.RED + " is currently busy.");
 			return;
 		}
 
-		DuelRequest duelRequest = playerProfile.getDuelRequest(target);
+		DuelRequest duelRequest = playerProfile.getDuelRequest(target.getPlayer());
 
 		if (duelRequest != null) {
 			if (targetProfile.isDuelRequestExpired(duelRequest)) {
@@ -114,7 +114,7 @@ public class DuelAcceptCommand extends BaseCommand {
 				}
 			} else {
 				MatchGamePlayer playerA = new MatchGamePlayer(player.getUniqueId(), player.getName());
-				MatchGamePlayer playerB = new MatchGamePlayer(target.getUniqueId(), target.getName());
+				MatchGamePlayer playerB = new MatchGamePlayer(target.getPlayer().getUniqueId(), target.getPlayer().getName());
 
 				participantA = new GameParticipant<>(playerA);
 				participantB = new GameParticipant<>(playerB);

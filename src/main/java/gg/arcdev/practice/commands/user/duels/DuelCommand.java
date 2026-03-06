@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 public class DuelCommand extends BaseCommand {
 
 	@Default
-	public void onDuel(Player sender, Player target) {
+	public void onDuel(Player sender, Profile target) {
 		if (target == null) {
 			sender.sendMessage(CC.RED + "A player with that name could not be found.");
 			return;
@@ -25,18 +25,18 @@ public class DuelCommand extends BaseCommand {
 			return;
 		}
 
-		if (target.hasMetadata("frozen")) {
+		if (target.getPlayer().hasMetadata("frozen")) {
 			sender.sendMessage(CC.RED + "You cannot duel a frozen player.");
 			return;
 		}
 
-		if (sender.getUniqueId().equals(target.getUniqueId())) {
+		if (sender.getUniqueId().equals(target.getPlayer().getUniqueId())) {
 			sender.sendMessage(CC.RED + "You cannot duel yourself.");
 			return;
 		}
 
 		Profile senderProfile = Profile.getByUuid(sender.getUniqueId());
-		Profile targetProfile = Profile.getByUuid(target.getUniqueId());
+		Profile targetProfile = Profile.getByUuid(target.getPlayer().getUniqueId());
 
 		if (senderProfile.isBusy()) {
 			sender.sendMessage(CC.RED + "You cannot duel right now.");
@@ -44,7 +44,7 @@ public class DuelCommand extends BaseCommand {
 		}
 
 		if (targetProfile.isBusy()) {
-			sender.sendMessage(target.getDisplayName() + CC.RED + " is currently busy.");
+			sender.sendMessage(target.getPlayer().getDisplayName() + CC.RED + " is currently busy.");
 			return;
 		}
 
@@ -79,7 +79,7 @@ public class DuelCommand extends BaseCommand {
 			}
 		}
 
-		DuelProcedure procedure = new DuelProcedure(sender, target, senderProfile.getParty() != null);
+		DuelProcedure procedure = new DuelProcedure(sender, target.getPlayer(), senderProfile.getParty() != null);
 		senderProfile.setDuelProcedure(procedure);
 
 		new DuelSelectKitMenu().openMenu(sender);
