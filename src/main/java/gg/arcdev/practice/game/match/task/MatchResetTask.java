@@ -18,7 +18,7 @@ public class MatchResetTask extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		if (match.getKit().getGameRules().isBuild() && match.getPlacedBlocks().size() > 0) {
+		if (match.getKit().getGameRules().isBuild() && !match.getPlacedBlocks().isEmpty()) {
 			TaskManager.IMP.async(() -> {
 				EditSession editSession = new EditSessionBuilder(match.getArena().getSpawnA().getWorld().getName())
 						.fastmode(true)
@@ -45,7 +45,7 @@ public class MatchResetTask extends BukkitRunnable {
 					cancel();
 				});
 			});
-		} else if (match.getKit().getGameRules().isBuild() && match.getChangedBlocks().size() > 0) {
+		} else if (match.getKit().getGameRules().isBuild() && !match.getChangedBlocks().isEmpty()) {
 			TaskManager.IMP.async(() -> {
 				EditSession editSession = new EditSessionBuilder(match.getArena().getSpawnA().getWorld().getName())
 						.fastmode(true)
@@ -60,7 +60,7 @@ public class MatchResetTask extends BukkitRunnable {
 								new Vector(blockState.getLocation().getBlockX(), blockState.getLocation().getBlockY(),
 										blockState.getLocation().getZ()
 								), new BaseBlock(blockState.getTypeId(), blockState.getRawData()));
-					} catch (Exception ex) {
+					} catch (Exception ignored) {
 					}
 				}
 

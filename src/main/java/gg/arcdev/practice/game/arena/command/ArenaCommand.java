@@ -5,7 +5,7 @@ import co.aikar.commands.annotation.*;
 import gg.arcdev.practice.Main;
 import gg.arcdev.practice.game.arena.*;
 import gg.arcdev.practice.game.arena.generator.ArenaGenerator;
-import gg.arcdev.practice.game.arena.generator.Schematic;
+import gg.arcdev.practice.game.arena.Schematic;
 import gg.arcdev.practice.game.arena.impl.SharedArena;
 import gg.arcdev.practice.game.arena.impl.StandaloneArena;
 import gg.arcdev.practice.game.arena.selection.Selection;
@@ -20,6 +20,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 @CommandAlias("arena")
 @CommandPermission("praxi.admin.arena")
@@ -38,6 +40,8 @@ public class ArenaCommand extends BaseCommand {
         sender.sendMessage(CC.translate("&7» &b/arena removekit <arena> <kit> &7- &fRemove a kit from an arena"));
         sender.sendMessage(CC.translate("&7» &b/arena generate &7- &fGenerate arenas from schematics"));
         sender.sendMessage(CC.translate("&7» &b/arena genhelper &7- &fPlace generator helper block"));
+        sender.sendMessage(CC.translate("&7» &b/arena setspawn <arena> <a|b> &7- &fSet arena spawn locations"));
+        sender.sendMessage(CC.translate("&7» &b/arena status <arena> &7- &fView arena setup status"));
         sender.sendMessage(CC.translate("&7» &b/arena save &7- &fSave all arenas"));
         sender.sendMessage(CC.translate("&7» &b/arenas &7- &fView existing arenas"));
 
@@ -162,18 +166,18 @@ public class ArenaCommand extends BaseCommand {
     /* ===================================================== */
 
     @Subcommand("generate")
-    public void onGenerate(CommandSender sender) {
+    public void onGenerate(Player player) {
 
-        File schematicsFolder = new File(Main.getInstance().getDataFolder(), "schematics");
+        File schematicsFolder = resolveSchematicsFolder();
 
-        if (!schematicsFolder.exists()) {
-            sender.sendMessage(CC.RED + "The schematics folder does not exist.");
+        if (schematicsFolder == null || !schematicsFolder.exists()) {
+            player.sendMessage(CC.RED + "No schematics folder found. Checked WorldEdit, FastAsyncWorldEdit, and Practice.");
             return;
         }
 
         File[] files = schematicsFolder.listFiles();
         if (files == null) {
-            sender.sendMessage(CC.RED + "No schematic files found.");
+            player.sendMessage(CC.RED + "No schematic files found.");
             return;
         }
 
@@ -190,7 +194,7 @@ public class ArenaCommand extends BaseCommand {
             Arena parent = Arena.getByName(name);
 
             if (parent != null && !(parent instanceof StandaloneArena)) {
-                sender.sendMessage(CC.RED + "Skipping " + name + " because it's not duplicate and already exists.");
+                player.sendMessage(CC.RED + "Skipping " + name + " because it's not duplicate and already exists.");
                 continue;
             }
 
@@ -200,7 +204,7 @@ public class ArenaCommand extends BaseCommand {
                     try {
                         new ArenaGenerator(
                                 name,
-                                Bukkit.getWorlds().get(0),
+                                player.getWorld(),
                                 new Schematic(file),
                                 duplicate
                                         ? (parent != null ? ArenaType.DUPLICATE : ArenaType.STANDALONE)
@@ -213,7 +217,26 @@ public class ArenaCommand extends BaseCommand {
             }.runTask(Main.getInstance());
         }
 
-        sender.sendMessage(CC.GREEN + "Generating arenas... See console for details.");
+        player.sendMessage(CC.GREEN + "Generating arenas in world " + player.getWorld().getName()
+                + " from " + schematicsFolder.getPath() + "...");
+    }
+
+    private File resolveSchematicsFolder() {
+        File pluginsFolder = Main.getInstance().getDataFolder().getParentFile();
+
+        List<File> candidates = Arrays.asList(
+                new File(pluginsFolder, "WorldEdit/schematics"),
+                new File(pluginsFolder, "FastAsyncWorldEdit/schematics"),
+                new File(Main.getInstance().getDataFolder(), "schematics")
+        );
+
+        for (File candidate : candidates) {
+            if (candidate.exists() && candidate.isDirectory()) {
+                return candidate;
+            }
+        }
+
+        return null;
     }
 
     @Subcommand("genhelper")

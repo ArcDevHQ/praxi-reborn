@@ -47,6 +47,10 @@ public abstract class Match {
 
 	@Getter protected static List<Match> matches = new ArrayList<>();
 
+	public static List<Match> getMatches() {
+		return matches;
+	}
+
 	private final UUID matchId = UUID.randomUUID();
 	private final Queue queue;
 	protected final Kit kit;

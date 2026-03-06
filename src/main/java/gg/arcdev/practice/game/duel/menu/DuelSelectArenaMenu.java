@@ -45,7 +45,7 @@ public class DuelSelectArenaMenu extends Menu {
 					continue;
 				}
 
-				if (arena.isActive()) {
+				if (arena.getActive()) {
 					continue;
 				}
 			}

@@ -1,18 +1,16 @@
 package gg.arcdev.practice.core.config;
 
 import gg.arcdev.practice.util.config.BasicConfigurationFile;
+import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@Getter
 public class ScoreboardConfig {
 
     private final BasicConfigurationFile file;
 
     public ScoreboardConfig(JavaPlugin plugin) {
         this.file = new BasicConfigurationFile(plugin, "scoreboard");
-    }
-
-    public BasicConfigurationFile getFile() {
-        return file;
     }
 
     public boolean isEnabled() {
