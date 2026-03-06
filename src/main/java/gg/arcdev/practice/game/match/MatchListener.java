@@ -1,5 +1,11 @@
 package gg.arcdev.practice.game.match;
 
+import com.lunarclient.apollo.Apollo;
+import com.lunarclient.apollo.common.icon.Icon;
+import com.lunarclient.apollo.common.icon.ItemStackIcon;
+import com.lunarclient.apollo.module.ApolloModule;
+import com.lunarclient.apollo.module.cooldown.CooldownModule;
+import com.lunarclient.apollo.player.ApolloPlayer;
 import gg.arcdev.practice.Locale;
 import gg.arcdev.practice.game.arena.Arena;
 import gg.arcdev.practice.game.kit.KitLoadout;
@@ -11,6 +17,8 @@ import gg.arcdev.practice.core.hotbar.HotbarItem;
 import gg.arcdev.practice.util.CC;
 import gg.arcdev.practice.util.Cooldown;
 import gg.arcdev.practice.util.PlayerUtil;
+
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -537,6 +545,7 @@ public class MatchListener implements Listener {
 	public void onPlayerInteractEvent(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		ItemStack itemStack = event.getItem();
+		CooldownModule module = Apollo.getModuleManager().getModule(CooldownModule.class);
 
 		if (itemStack != null && (event.getAction() == Action.RIGHT_CLICK_AIR ||
 		                          event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
@@ -603,7 +612,15 @@ public class MatchListener implements Listener {
 						event.setCancelled(true);
 					} else {
 						profile.setEnderpearlCooldown(new Cooldown(16_000));
-						//todo:
+						Apollo.getPlayerManager().getPlayer(profile.getUuid()).ifPresent(aPlayer -> {
+							module.displayCooldown(aPlayer, com.lunarclient.apollo.module.cooldown.Cooldown.builder()
+									.duration(Duration.ofSeconds(16L))
+									.name("enderpearl_cooldown")
+									.icon(ItemStackIcon.builder()
+											.itemName("ENDER_PEARL")
+											.build())
+									.build());
+						});
 					}
 				}
 			}
