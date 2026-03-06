@@ -13,6 +13,6 @@ import java.util.List;
 public class OptionsOpenedEvent extends BaseEvent {
 
 	private final Player player;
-	private List<ProfileOptionButton> buttons = new ArrayList<>();
+	private final List<ProfileOptionButton> buttons = new ArrayList<>();
 
 }

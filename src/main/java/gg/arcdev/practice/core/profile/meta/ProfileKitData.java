@@ -1,12 +1,13 @@
 package gg.arcdev.practice.core.profile.meta;
 
 import gg.arcdev.practice.game.kit.KitLoadout;
-import gg.arcdev.practice.core.hotbar.Hotbar;
-import gg.arcdev.practice.core.hotbar.HotbarItem;
+import gg.arcdev.practice.Main;
+import gg.arcdev.practice.util.ItemBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -64,7 +65,7 @@ public class ProfileKitData {
 			}
 		}
 
-		ItemStack defaultKitItemStack = Hotbar.getItems().get(HotbarItem.KIT_SELECTION).clone();
+		ItemStack defaultKitItemStack = createKitSelectionItem("Default");
 		ItemMeta defaultKitItemMeta = defaultKitItemStack.getItemMeta();
 		defaultKitItemMeta.setDisplayName(defaultKitItemMeta.getDisplayName()
 		                                                    .replace("%KIT%", "Default"));
@@ -72,20 +73,29 @@ public class ProfileKitData {
 
 		if (loadouts.isEmpty()) {
 			player.getInventory().setItem(0, defaultKitItemStack);
-		} else {
-			player.getInventory().setItem(8, defaultKitItemStack);
+			} else {
+				player.getInventory().setItem(8, defaultKitItemStack);
 
-			for (KitLoadout loadout : loadouts) {
-				ItemStack itemStack = Hotbar.getItems().get(HotbarItem.KIT_SELECTION).clone();
-				ItemMeta itemMeta = itemStack.getItemMeta();
-				itemMeta.setDisplayName(itemMeta.getDisplayName().replace("%KIT%", loadout.getCustomName()));
-				itemStack.setItemMeta(itemMeta);
-
-				player.getInventory().addItem(itemStack);
+				for (KitLoadout loadout : loadouts) {
+					player.getInventory().addItem(createKitSelectionItem(loadout.getCustomName()));
+				}
 			}
-		}
 
 		player.updateInventory();
+	}
+
+	private ItemStack createKitSelectionItem(String kitName) {
+		String path = "HOTBAR_ITEMS.KIT_SELECTION.";
+		ItemStack itemStack = new ItemBuilder(Material.valueOf(
+				Main.getInstance().getMainConfig().getConfiguration().getString(path + "MATERIAL")))
+				.durability(Main.getInstance().getMainConfig().getConfiguration().getInt(path + "DURABILITY"))
+				.name(Main.getInstance().getMainConfig().getConfiguration().getString(path + "NAME"))
+				.lore(Main.getInstance().getMainConfig().getConfiguration().getStringList(path + "LORE"))
+				.build();
+		ItemMeta itemMeta = itemStack.getItemMeta();
+		itemMeta.setDisplayName(itemMeta.getDisplayName().replace("%KIT%", kitName));
+		itemStack.setItemMeta(itemMeta);
+		return itemStack;
 	}
 
 }

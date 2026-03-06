@@ -38,7 +38,7 @@ public class Party {
 		this.privacy = PartyPrivacy.CLOSED;
 
 		this.players.add(player.getUniqueId());
-
+		player.sendMessage(CC.translate(""));
 		parties.add(this);
 	}
 
