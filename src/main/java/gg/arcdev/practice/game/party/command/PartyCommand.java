@@ -2,6 +2,7 @@ package gg.arcdev.practice.game.party.command;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
+import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import gg.arcdev.practice.Locale;
 import gg.arcdev.practice.core.hotbar.Hotbar;
 import gg.arcdev.practice.core.profile.Profile;
@@ -146,7 +147,7 @@ public class PartyCommand extends BaseCommand {
 
     @Subcommand("invite")
     @Syntax("<player>")
-    public void onInvite(Player player, Player target) {
+    public void onInvite(Player player, @Name("target") OnlinePlayer target) {
 
         if (target == null) {
             player.sendMessage(CC.RED + "A player with that name could not be found.");
@@ -165,12 +166,12 @@ public class PartyCommand extends BaseCommand {
             return;
         }
 
-        if (profile.getParty().getInvite(target.getUniqueId()) != null) {
+        if (profile.getParty().getInvite(target.player.getUniqueId()) != null) {
             player.sendMessage(CC.RED + "That player has already been invited.");
             return;
         }
 
-        if (profile.getParty().containsPlayer(target.getUniqueId())) {
+        if (profile.getParty().containsPlayer(target.player.getUniqueId())) {
             player.sendMessage(CC.RED + "That player is already in your party.");
             return;
         }
@@ -180,17 +181,17 @@ public class PartyCommand extends BaseCommand {
             return;
         }
 
-        if (Profile.getByUuid(target.getUniqueId()).isBusy()) {
-            player.sendMessage(target.getDisplayName() + CC.RED + " is currently busy.");
+        if (Profile.getByUuid(target.player.getUniqueId()).isBusy()) {
+            player.sendMessage(target.player.getDisplayName() + CC.RED + " is currently busy.");
             return;
         }
 
-        profile.getParty().invite(target);
+        profile.getParty().invite(target.player);
     }
 
     @Subcommand("join")
     @Syntax("<player>")
-    public void onJoin(Player player, Player target) {
+    public void onJoin(Player player, OnlinePlayer target) {
 
         if (target == null) {
             player.sendMessage(CC.RED + "A player with that name could not be found.");
@@ -209,7 +210,7 @@ public class PartyCommand extends BaseCommand {
             return;
         }
 
-        Party party = Profile.getByUuid(target.getUniqueId()).getParty();
+        Party party = Profile.getByUuid(target.player.getUniqueId()).getParty();
 
         if (party == null) {
             player.sendMessage(CC.RED + "That player does not have a party.");
@@ -232,7 +233,7 @@ public class PartyCommand extends BaseCommand {
 
     @Subcommand("kick")
     @Syntax("<player>")
-    public void onKick(Player player, Player target) {
+    public void onKick(Player player, OnlinePlayer target) {
 
         Profile profile = Profile.getByUuid(player.getUniqueId());
 
@@ -246,17 +247,17 @@ public class PartyCommand extends BaseCommand {
             return;
         }
 
-        if (!profile.getParty().containsPlayer(target.getUniqueId())) {
+        if (!profile.getParty().containsPlayer(target.player.getUniqueId())) {
             player.sendMessage(CC.RED + "That player is not in your party.");
             return;
         }
 
-        if (player.equals(target)) {
+        if (player.equals(target.player)) {
             player.sendMessage(CC.RED + "You cannot kick yourself.");
             return;
         }
 
-        profile.getParty().leave(target, true);
+        profile.getParty().leave(target.player, true);
     }
 
     @Subcommand("chat")

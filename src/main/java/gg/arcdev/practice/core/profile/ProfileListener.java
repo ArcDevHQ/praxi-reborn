@@ -112,6 +112,7 @@ public class ProfileListener implements Listener {
 	@EventHandler(priority = EventPriority.LOW)
 	public void onAsyncPlayerPreLoginEvent(AsyncPlayerPreLoginEvent event) {
 		Profile profile = new Profile(event.getUniqueId());
+		profile.setUsername(event.getName());
 
 		try {
 			profile.load();
@@ -128,6 +129,10 @@ public class ProfileListener implements Listener {
 	@EventHandler
 	public void onPlayerJoinEvent(PlayerJoinEvent event) {
 		event.setJoinMessage(null);
+		Profile profile = Profile.getProfiles().get(event.getPlayer().getUniqueId());
+		if (profile != null) {
+			profile.setUsername(event.getPlayer().getName());
+		}
 
 		for (String line : Main.getInstance().getMainConfig().getStringList("JOIN_MESSAGES")) {
 			event.getPlayer().sendMessage(CC.translate(line));

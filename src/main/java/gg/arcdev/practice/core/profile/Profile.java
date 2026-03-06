@@ -17,6 +17,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -38,9 +39,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class Profile {
 
 	@Getter private static Map<UUID, Profile> profiles = new HashMap<>();
+	@Getter private static Map<String, UUID> usernames = new HashMap<>();
 	private static MongoCollection<Document> collection;
 
 	@Getter private UUID uuid;
+	@Getter @Setter private String username;
 	@Getter @Setter private ProfileState state;
 	@Getter private final ProfileOptions options;
 	@Getter private final ProfileKitEditorData kitEditorData;
@@ -71,6 +74,11 @@ public class Profile {
 
 	public Player getPlayer() {
 		return Bukkit.getPlayer(uuid);
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+		cacheUsername(this);
 	}
 
 	public DuelRequest getDuelRequest(Player sender) {
@@ -104,6 +112,11 @@ public class Profile {
 		if (document == null) {
 			this.save();
 			return;
+		}
+
+		String storedUsername = document.getString("username");
+		if (storedUsername != null && !storedUsername.trim().isEmpty()) {
+			setUsername(storedUsername);
 		}
 
 		Document options = (Document) document.get("options");
@@ -155,6 +168,8 @@ public class Profile {
 	public void save() {
 		Document document = new Document();
 		document.put("uuid", uuid.toString());
+		document.put("username", username);
+		document.put("usernameLower", username == null ? null : normalizeUsername(username));
 
 		Document optionsDocument = new Document();
 		optionsDocument.put("showScoreboard", options.showScoreboard());
@@ -214,6 +229,7 @@ public class Profile {
 				continue;
 			}
 
+			profile.setUsername(player.getName());
 			profiles.put(player.getUniqueId(), profile);
 		}
 
@@ -255,6 +271,77 @@ public class Profile {
 		}
 
 		return profile;
+	}
+
+	public static Profile getByUsername(String username) {
+		if (username == null || username.trim().isEmpty()) {
+			return null;
+		}
+
+		Player onlinePlayer = Bukkit.getPlayerExact(username);
+		if (onlinePlayer != null) {
+			Profile onlineProfile = profiles.get(onlinePlayer.getUniqueId());
+			if (onlineProfile != null) {
+				onlineProfile.setUsername(onlinePlayer.getName());
+				return onlineProfile;
+			}
+		}
+
+		UUID cachedUuid = usernames.get(normalizeUsername(username));
+		if (cachedUuid != null) {
+			Profile cachedProfile = profiles.get(cachedUuid);
+			if (cachedProfile != null) {
+				return cachedProfile;
+			}
+		}
+
+		Document document = collection.find(Filters.eq("usernameLower", normalizeUsername(username))).first();
+		if (document == null) {
+			document = collection.find(Filters.eq("username", username)).first();
+		}
+
+		if (document == null) {
+			return null;
+		}
+
+		UUID profileUuid = UUID.fromString(document.getString("uuid"));
+		Profile profile = profiles.get(profileUuid);
+		if (profile == null) {
+			profile = new Profile(profileUuid);
+			profile.load();
+		}
+
+		if (profile.getUsername() == null) {
+			profile.setUsername(document.getString("username"));
+		}
+
+		cacheUsername(profile);
+		return profile;
+	}
+
+	public static Collection<String> getKnownUsernames() {
+		List<String> knownUsernames = new ArrayList<>();
+
+		for (Profile profile : profiles.values()) {
+			if (profile.getUsername() != null && !profile.getUsername().trim().isEmpty()
+					&& !knownUsernames.contains(profile.getUsername())) {
+				knownUsernames.add(profile.getUsername());
+			}
+		}
+
+		return knownUsernames;
+	}
+
+	private static void cacheUsername(Profile profile) {
+		if (profile == null || profile.username == null || profile.username.trim().isEmpty()) {
+			return;
+		}
+
+		usernames.put(normalizeUsername(profile.username), profile.uuid);
+	}
+
+	private static String normalizeUsername(String username) {
+		return username.trim().toLowerCase();
 	}
 
 }

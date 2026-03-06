@@ -2,6 +2,7 @@ package gg.arcdev.practice.core;
 
 import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.PaperCommandManager;
+import gg.arcdev.practice.commands.acf.context.ProfileContextResolver;
 import gg.arcdev.practice.commands.SetSpawnCommand;
 import gg.arcdev.practice.game.event.commands.admin.*;
 import gg.arcdev.practice.game.event.commands.map.*;
@@ -13,6 +14,7 @@ import gg.arcdev.practice.commands.user.settings.*;
 import gg.arcdev.practice.Main;
 import gg.arcdev.practice.game.arena.Arena;
 import gg.arcdev.practice.game.arena.command.*;
+import gg.arcdev.practice.core.profile.Profile;
 import gg.arcdev.practice.game.event.Event;
 import gg.arcdev.practice.game.event.game.map.EventGameMap;
 import gg.arcdev.practice.game.kit.Kit;
@@ -36,6 +38,7 @@ public class CommandRegistry {
     }
 
     public void registerCommands() {
+        ProfileContextResolver profileContextResolver = new ProfileContextResolver();
 
         manager.getCommandContexts().registerContext(Arena.class, c -> {
             String name = c.popFirstArg();
@@ -72,6 +75,10 @@ public class CommandRegistry {
             }
             return map;
         });
+
+        manager.getCommandContexts().registerContext(Profile.class, profileContextResolver::getContext);
+        manager.getCommandCompletions().registerAsyncCompletion(profileContextResolver.getId(),
+                profileContextResolver::getCompletions);
 
         Arrays.asList(
                 new ArenaCommand(),
@@ -135,4 +142,6 @@ public class CommandRegistry {
                 new ToggleDuelRequestsCommand()
         ).forEach(manager::registerCommand);
     }
+
+    
 }
