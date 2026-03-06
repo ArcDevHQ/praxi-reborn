@@ -1,5 +1,7 @@
 package gg.arcdev.practice;
 
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import gg.arcdev.practice.core.CommandRegistry;
 import co.aikar.commands.PaperCommandManager;
 import gg.arcdev.practice.core.adapter.CoreManager;
@@ -26,10 +28,6 @@ import gg.arcdev.practice.util.InventoryUtil;
 import gg.arcdev.practice.util.assemble.Assemble;
 import gg.arcdev.practice.util.config.BasicConfigurationFile;
 import gg.arcdev.practice.util.menu.MenuListener;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.MongoCredential;
-import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoDatabase;
 import lombok.Getter;
 import org.bukkit.Difficulty;
@@ -46,6 +44,7 @@ public class Main extends JavaPlugin {
 	@Getter private BasicConfigurationFile arenasConfig;
 	@Getter private BasicConfigurationFile kitsConfig;
 	@Getter private BasicConfigurationFile eventsConfig;
+	@Getter private MongoClient mongoClient;
 	@Getter private MongoDatabase mongoDatabase;
 	@Getter private Essentials essentials;
 	@Getter private PaperCommandManager commandManager;
@@ -69,6 +68,10 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		Match.cleanup();
+		if (mongoClient != null) {
+			mongoClient.close();
+			mongoClient = null;
+		}
 	}
 
 	private void initializeCore() {
@@ -139,22 +142,19 @@ public class Main extends JavaPlugin {
 	}
 
 	private void loadMongo() {
-		if (mainConfig.getBoolean("MONGO.AUTHENTICATION.ENABLED")) {
-			mongoDatabase = new MongoClient(
-					new ServerAddress(mainConfig.getString("MONGO.HOST"), mainConfig.getInteger("MONGO.PORT")),
-					MongoCredential.createCredential(
-							mainConfig.getString("MONGO.AUTHENTICATION.USERNAME"),
-							mainConfig.getString("MONGO.AUTHENTICATION.ADMIN"),
-							mainConfig.getString("MONGO.AUTHENTICATION.PASSWORD").toCharArray()
-					),
-					MongoClientOptions.builder().build()
-			).getDatabase(mainConfig.getString("MONGO.DATABASE"));
-		} else {
-			mongoDatabase = new MongoClient(
-					mainConfig.getString("MONGO.HOST"),
-					mainConfig.getInteger("MONGO.PORT")
-			).getDatabase(mainConfig.getString("MONGO.DATABASE"));
+		String mongoUri = mainConfig.getStringOrDefault("MONGO.URI", "").trim();
+		String databaseName = mainConfig.getStringOrDefault("MONGO.DATABASE", "").trim();
+
+		if (mongoUri.isEmpty()) {
+			throw new IllegalStateException("MONGO.URI must be configured in config.yml");
 		}
+
+		if (databaseName.isEmpty()) {
+			throw new IllegalStateException("MONGO.DATABASE must be configured in config.yml");
+		}
+
+		mongoClient = new MongoClient(new MongoClientURI(mongoUri));
+		mongoDatabase = mongoClient.getDatabase(databaseName);
 	}
 
 	public static Main getInstance() {

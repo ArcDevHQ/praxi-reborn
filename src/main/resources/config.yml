@@ -1,12 +1,6 @@
 MONGO:
-  HOST: "127.0.0.1"
-  PORT: 27017
+  URI: "mongodb://127.0.0.1:27017"
   DATABASE: "practice"
-  AUTHENTICATION:
-    ENABLED: false
-    USERNAME: ""
-    PASSWORD: ""
-    ADMIN: "practice"
 SCOREBOARD:
   TITLE: "&3&lPractice"
 JOIN_MESSAGES:
