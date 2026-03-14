@@ -9,6 +9,7 @@ import gg.arcdev.practice.game.arena.Arena;
 import gg.arcdev.practice.game.duel.DuelRequest;
 import gg.arcdev.practice.game.match.Match;
 import gg.arcdev.practice.game.match.impl.BasicTeamMatch;
+import gg.arcdev.practice.game.match.impl.BridgeMatch;
 import gg.arcdev.practice.game.match.participant.MatchGamePlayer;
 import gg.arcdev.practice.game.participant.GameParticipant;
 import gg.arcdev.practice.game.participant.TeamGameParticipant;
@@ -96,7 +97,7 @@ public class DuelAcceptCommand extends BaseCommand {
             GameParticipant<MatchGamePlayer> participantB = null;
 
             if (duelRequest.isParty()) {
-                for (Party party : new Party[]{ playerProfile.getParty(), targetProfile.getParty() }) {
+                for (Party party : new Party[] { playerProfile.getParty(), targetProfile.getParty() }) {
                     Player leader = party.getLeader();
                     MatchGamePlayer gamePlayer = new MatchGamePlayer(leader.getUniqueId(), leader.getName());
                     TeamGameParticipant<MatchGamePlayer> participant = new TeamGameParticipant<>(gamePlayer);
@@ -116,13 +117,19 @@ public class DuelAcceptCommand extends BaseCommand {
                 }
             } else {
                 MatchGamePlayer playerA = new MatchGamePlayer(player.getUniqueId(), player.getName());
-                MatchGamePlayer playerB = new MatchGamePlayer(target.getPlayer().getUniqueId(), target.getPlayer().getName());
+                MatchGamePlayer playerB = new MatchGamePlayer(target.getPlayer().getUniqueId(),
+                        target.getPlayer().getName());
 
                 participantA = new GameParticipant<>(playerA);
                 participantB = new GameParticipant<>(playerB);
             }
 
-            Match match = new BasicTeamMatch(null, duelRequest.getKit(), arena, false, participantA, participantB);
+            Match match;
+            if (duelRequest.getKit().getGameRules().isBridge()) {
+                match = new BridgeMatch(null, duelRequest.getKit(), arena, false, participantA, participantB);
+            } else {
+                match = new BasicTeamMatch(null, duelRequest.getKit(), arena, false, participantA, participantB);
+            }
             match.start();
         } else {
             player.sendMessage(CC.RED + "You do not have a duel request from that player.");

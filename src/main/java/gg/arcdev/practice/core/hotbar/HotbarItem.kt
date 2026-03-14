@@ -1,7 +1,5 @@
 package gg.arcdev.practice.core.hotbar
 
-import lombok.Getter
-import lombok.Setter
 import java.util.regex.Pattern
 
 enum class HotbarItem(val command: String?) {

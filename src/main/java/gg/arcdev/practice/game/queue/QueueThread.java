@@ -3,6 +3,7 @@ package gg.arcdev.practice.game.queue;
 import gg.arcdev.practice.Main;
 import gg.arcdev.practice.game.arena.Arena;
 import gg.arcdev.practice.game.match.impl.BasicTeamMatch;
+import gg.arcdev.practice.game.match.impl.BridgeMatch;
 import gg.arcdev.practice.game.match.participant.MatchGamePlayer;
 import gg.arcdev.practice.game.participant.GameParticipant;
 import gg.arcdev.practice.game.match.Match;
@@ -42,22 +43,22 @@ public class QueueThread extends Thread {
 								continue;
 							}
 
-//							if (firstProfile.getOptions().isUsingPingFactor() ||
-//							    secondProfile.getOptions().isUsingPingFactor()) {
-//								if (firstPlayer.getPing() >= secondPlayer.getPing()) {
-//									if (firstPlayer.getPing() - secondPlayer.getPing() >= 50) {
-//										continue;
-//									}
-//								} else {
-//									if (secondPlayer.getPing() - firstPlayer.getPing() >= 50) {
-//										continue;
-//									}
-//								}
-//							}
+							// if (firstProfile.getOptions().isUsingPingFactor() ||
+							// secondProfile.getOptions().isUsingPingFactor()) {
+							// if (firstPlayer.getPing() >= secondPlayer.getPing()) {
+							// if (firstPlayer.getPing() - secondPlayer.getPing() >= 50) {
+							// continue;
+							// }
+							// } else {
+							// if (secondPlayer.getPing() - firstPlayer.getPing() >= 50) {
+							// continue;
+							// }
+							// }
+							// }
 
 							if (queue.isRanked()) {
 								if (!firstQueueProfile.isInRange(secondQueueProfile.getElo()) ||
-								    !secondQueueProfile.isInRange(firstQueueProfile.getElo())) {
+										!secondQueueProfile.isInRange(firstQueueProfile.getElo())) {
 									continue;
 								}
 							}
@@ -85,9 +86,14 @@ public class QueueThread extends Thread {
 							GameParticipant<MatchGamePlayer> participantA = new GameParticipant<>(playerA);
 							GameParticipant<MatchGamePlayer> participantB = new GameParticipant<>(playerB);
 
-							// Create match
-							Match match = new BasicTeamMatch(queue, queue.getKit(), arena, queue.isRanked(),
-									participantA, participantB);
+							Match match;
+							if (queue.getKit().getGameRules().isBridge()) {
+								match = new BridgeMatch(queue, queue.getKit(), arena, queue.isRanked(),
+										participantA, participantB);
+							} else {
+								match = new BasicTeamMatch(queue, queue.getKit(), arena, queue.isRanked(),
+										participantA, participantB);
+							}
 
 							String[] opponentMessages = formatMessages(firstPlayer.getName(),
 									secondPlayer.getName(), firstQueueProfile.getElo(), secondQueueProfile.getElo(),
@@ -129,11 +135,11 @@ public class QueueThread extends Thread {
 		String player1Format = player1 + (ranked ? CC.PINK + " (" + player1Elo + ")" : "");
 		String player2Format = player2 + (ranked ? CC.PINK + " (" + player2Elo + ")" : "");
 
-		return new String[]{
+		return new String[] {
 				CC.YELLOW + CC.BOLD + "Found opponent: " + CC.GREEN + player1Format + CC.YELLOW + " vs. " +
-				CC.RED + player2Format,
+						CC.RED + player2Format,
 				CC.YELLOW + CC.BOLD + "Found opponent: " + CC.GREEN + player2Format + CC.YELLOW + " vs. " +
-				CC.RED + player1Format
+						CC.RED + player1Format
 		};
 	}
 

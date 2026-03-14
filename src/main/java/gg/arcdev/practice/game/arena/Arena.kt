@@ -138,11 +138,12 @@ open class Arena(
                     continue
                 }
 
-                if (kit.getGameRules().isBuild() && !arena.active &&
+                val isBuildLike = kit.getGameRules().isBuild() || kit.getGameRules().isBridge()
+                if (isBuildLike && !arena.active &&
                     (arena.getType() == ArenaType.STANDALONE || arena.getType() == ArenaType.DUPLICATE)
                 ) {
                     available.add(arena)
-                } else if (!kit.getGameRules().isBuild() && arena.getType() == ArenaType.SHARED) {
+                } else if (!isBuildLike && arena.getType() == ArenaType.SHARED) {
                     available.add(arena)
                 }
             }

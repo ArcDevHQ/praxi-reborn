@@ -29,6 +29,7 @@ import java.util.regex.Matcher;
 import gg.arcdev.practice.util.TimeUtil;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -59,6 +60,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import gg.arcdev.practice.game.match.impl.BridgeMatch;
+
 public class MatchListener implements Listener {
 
 	@EventHandler
@@ -67,17 +70,48 @@ public class MatchListener implements Listener {
 
 		if (profile.getState() == ProfileState.FIGHTING) {
 			if (profile.getMatch().getKit().getGameRules().isSumo() ||
-			    profile.getMatch().getKit().getGameRules().isSpleef()) {
+					profile.getMatch().getKit().getGameRules().isSpleef()) {
 				Match match = profile.getMatch();
 
 				if (match.getState() == MatchState.PLAYING_ROUND) {
 					if (event.getPlayer().getLocation().getBlock().getType() == Material.WATER ||
-					    event.getPlayer().getLocation().getBlock().getType() == Material.STATIONARY_WATER) {
+							event.getPlayer().getLocation().getBlock().getType() == Material.STATIONARY_WATER) {
 						match.onDeath(event.getPlayer());
 					}
 				}
 			}
+
+			if (profile.getMatch().getKit().getGameRules().isBridge()) {
+				Match match = profile.getMatch();
+
+				if (match.getState() == MatchState.PLAYING_ROUND && match instanceof BridgeMatch) {
+					BridgeMatch bridgeMatch = (BridgeMatch) match;
+					Player player = event.getPlayer();
+
+					Location playerLoc = player.getLocation();
+					Location opponentGoal;
+
+					if (bridgeMatch.getParticipantA().containsPlayer(player.getUniqueId())) {
+						opponentGoal = match.getArena().getSpawnB();
+					} else {
+						opponentGoal = match.getArena().getSpawnA();
+					}
+
+					if (opponentGoal != null && isInGoalZone(playerLoc, opponentGoal)) {
+						bridgeMatch.onGoal(player);
+					}
+				}
+			}
 		}
+	}
+
+	private boolean isInGoalZone(Location playerLoc, Location goalLoc) {
+		if (!playerLoc.getWorld().equals(goalLoc.getWorld()))
+			return false;
+		double dx = Math.abs(playerLoc.getX() - goalLoc.getX());
+		double dy = Math.abs(playerLoc.getY() - goalLoc.getY());
+		double dz = Math.abs(playerLoc.getZ() - goalLoc.getZ());
+		return dx <= 2.5 && dy <= 3.0 && dz <= 2.5;
 	}
 
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
@@ -92,7 +126,8 @@ public class MatchListener implements Listener {
 				return;
 			}
 
-			if (match.getKit().getGameRules().isBuild() && match.getState() == MatchState.PLAYING_ROUND) {
+			boolean isBuildLike = match.getKit().getGameRules().isBuild() || match.getKit().getGameRules().isBridge();
+			if (isBuildLike && match.getState() == MatchState.PLAYING_ROUND) {
 				if (match.getKit().getGameRules().isSpleef()) {
 					event.setCancelled(true);
 					return;
@@ -110,7 +145,7 @@ public class MatchListener implements Listener {
 				}
 
 				if (x >= arena.getX1() && x <= arena.getX2() && y >= arena.getY1() && y <= arena.getY2() &&
-				    z >= arena.getZ1() && z <= arena.getZ2()) {
+						z >= arena.getZ1() && z <= arena.getZ2()) {
 					match.getPlacedBlocks().add(event.getBlock().getLocation());
 				} else {
 					event.getPlayer().sendMessage(CC.RED + "You cannot build outside of the arena!");
@@ -138,10 +173,11 @@ public class MatchListener implements Listener {
 				return;
 			}
 
-			if (match.getKit().getGameRules().isBuild() && match.getState() == MatchState.PLAYING_ROUND) {
+			boolean isBuildLike2 = match.getKit().getGameRules().isBuild() || match.getKit().getGameRules().isBridge();
+			if (isBuildLike2 && match.getState() == MatchState.PLAYING_ROUND) {
 				if (match.getKit().getGameRules().isSpleef()) {
 					if (event.getBlock().getType() == Material.SNOW_BLOCK ||
-					    event.getBlock().getType() == Material.SNOW) {
+							event.getBlock().getType() == Material.SNOW) {
 						match.getChangedBlocks().add(event.getBlock().getState());
 
 						event.getBlock().setType(Material.AIR);
@@ -175,7 +211,8 @@ public class MatchListener implements Listener {
 				return;
 			}
 
-			if (match.getKit().getGameRules().isBuild() && match.getState() == MatchState.PLAYING_ROUND) {
+			boolean isBuildLike3 = match.getKit().getGameRules().isBuild() || match.getKit().getGameRules().isBridge();
+			if (isBuildLike3 && match.getState() == MatchState.PLAYING_ROUND) {
 				Arena arena = match.getArena();
 				Block block = event.getBlockClicked().getRelative(event.getBlockFace());
 				int x = (int) block.getLocation().getX();
@@ -189,7 +226,7 @@ public class MatchListener implements Listener {
 				}
 
 				if (x >= arena.getX1() && x <= arena.getX2() && y >= arena.getY1() && y <= arena.getY2() &&
-				    z >= arena.getZ1() && z <= arena.getZ2()) {
+						z >= arena.getZ1() && z <= arena.getZ2()) {
 					match.getPlacedBlocks().add(block.getLocation());
 				} else {
 					event.setCancelled(true);
@@ -239,7 +276,7 @@ public class MatchListener implements Listener {
 		Profile profile = Profile.getByUuid(event.getPlayer().getUniqueId());
 
 		if (event.getItemDrop().getItemStack().getType() == Material.BOOK ||
-		    event.getItemDrop().getItemStack().getType() == Material.ENCHANTED_BOOK) {
+				event.getItemDrop().getItemStack().getType() == Material.ENCHANTED_BOOK) {
 			event.setCancelled(true);
 			return;
 		}
@@ -272,7 +309,7 @@ public class MatchListener implements Listener {
 			event.getDrops().forEach(itemStack -> {
 				if (!(itemStack.getType() == Material.BOOK || itemStack.getType() == Material.ENCHANTED_BOOK)) {
 					entities.add(event.getEntity().getLocation().getWorld()
-					                  .dropItemNaturally(event.getEntity().getLocation(), itemStack));
+							.dropItemNaturally(event.getEntity().getLocation(), itemStack));
 				}
 			});
 
@@ -329,7 +366,7 @@ public class MatchListener implements Listener {
 			Profile shooterData = Profile.getByUuid(shooter.getUniqueId());
 
 			if (shooterData.getState() == ProfileState.FIGHTING &&
-			    shooterData.getMatch().getState() == MatchState.PLAYING_ROUND) {
+					shooterData.getMatch().getState() == MatchState.PLAYING_ROUND) {
 				if (event.getIntensity(shooter) <= 0.5D) {
 					shooterData.getMatch().getGamePlayer(shooter).incrementPotionsMissed();
 				}
@@ -351,7 +388,8 @@ public class MatchListener implements Listener {
 			if (event.getRegainReason() == EntityRegainHealthEvent.RegainReason.SATIATED) {
 				Profile profile = Profile.getByUuid(event.getEntity().getUniqueId());
 
-				if (profile.getState() == ProfileState.FIGHTING && !profile.getMatch().getKit().getGameRules().isHealthRegeneration()) {
+				if (profile.getState() == ProfileState.FIGHTING
+						&& !profile.getMatch().getKit().getGameRules().isHealthRegeneration()) {
 					event.setCancelled(true);
 				}
 			}
@@ -380,7 +418,8 @@ public class MatchListener implements Listener {
 					return;
 				}
 
-				if (profile.getMatch().getKit().getGameRules().isSumo() || profile.getMatch().getKit().getGameRules().isSpleef()) {
+				if (profile.getMatch().getKit().getGameRules().isSumo()
+						|| profile.getMatch().getKit().getGameRules().isSpleef()) {
 					event.setDamage(0);
 					player.setHealth(20.0);
 					player.updateInventory();
@@ -412,12 +451,14 @@ public class MatchListener implements Listener {
 			Profile damagedProfile = Profile.getByUuid(damaged.getUniqueId());
 			Profile attackerProfile = Profile.getByUuid(attacker.getUniqueId());
 
-			if (attackerProfile.getState() == ProfileState.SPECTATING || damagedProfile.getState() == ProfileState.SPECTATING) {
+			if (attackerProfile.getState() == ProfileState.SPECTATING
+					|| damagedProfile.getState() == ProfileState.SPECTATING) {
 				event.setCancelled(true);
 				return;
 			}
 
-			if (damagedProfile.getState() == ProfileState.FIGHTING && attackerProfile.getState() == ProfileState.FIGHTING) {
+			if (damagedProfile.getState() == ProfileState.FIGHTING
+					&& attackerProfile.getState() == ProfileState.FIGHTING) {
 				Match match = attackerProfile.getMatch();
 
 				if (!damagedProfile.getMatch().getMatchId().equals(attackerProfile.getMatch().getMatchId())) {
@@ -451,8 +492,7 @@ public class MatchListener implements Listener {
 							range,
 							damaged.getName(),
 							health,
-							StringEscapeUtils.unescapeJava("\u2764")
-					));
+							StringEscapeUtils.unescapeJava("\u2764")));
 				}
 			}
 		}
@@ -484,7 +524,7 @@ public class MatchListener implements Listener {
 	public void onPlayerItemConsumeEvent(PlayerItemConsumeEvent event) {
 		if (event.getItem().getType() == Material.GOLDEN_APPLE) {
 			if (event.getItem().hasItemMeta() &&
-			    event.getItem().getItemMeta().getDisplayName().contains("Golden Head")) {
+					event.getItem().getItemMeta().getDisplayName().contains("Golden Head")) {
 				Player player = event.getPlayer();
 				player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 1));
 				player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 2400, 0));
@@ -500,7 +540,7 @@ public class MatchListener implements Listener {
 			Profile profile = Profile.getByUuid(player.getUniqueId());
 
 			if (profile.getState() == ProfileState.FIGHTING &&
-			    profile.getMatch().getState() == MatchState.PLAYING_ROUND) {
+					profile.getMatch().getState() == MatchState.PLAYING_ROUND) {
 				if (event.getFoodLevel() >= 20) {
 					event.setFoodLevel(20);
 					player.setSaturation(20);
@@ -532,7 +572,7 @@ public class MatchListener implements Listener {
 		Profile profile = Profile.getByUuid(player.getUniqueId());
 
 		if (profile.getState() == ProfileState.SPECTATING && event.getRightClicked() instanceof Player &&
-		    player.getItemInHand() != null) {
+				player.getItemInHand() != null) {
 			Player target = (Player) event.getRightClicked();
 
 			if (Hotbar.fromItemStack(player.getItemInHand()) == HotbarItem.VIEW_INVENTORY) {
@@ -548,7 +588,7 @@ public class MatchListener implements Listener {
 		CooldownModule module = Apollo.getModuleManager().getModule(CooldownModule.class);
 
 		if (itemStack != null && (event.getAction() == Action.RIGHT_CLICK_AIR ||
-		                          event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
+				event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
 			Profile profile = Profile.getByUuid(player.getUniqueId());
 
 			if (profile.getState() == ProfileState.FIGHTING) {
@@ -568,7 +608,7 @@ public class MatchListener implements Listener {
 					ItemStack kitItem = Hotbar.getItems().get(HotbarItem.KIT_SELECTION);
 
 					if (itemStack.getType() == kitItem.getType() &&
-					    itemStack.getDurability() == kitItem.getDurability()) {
+							itemStack.getDurability() == kitItem.getDurability()) {
 						Matcher matcher = Objects.requireNonNull(HotbarItem.KIT_SELECTION.getPattern())
 								.matcher(itemStack.getItemMeta().getDisplayName());
 
@@ -629,9 +669,9 @@ public class MatchListener implements Listener {
 
 	private boolean isDeadFighter(Profile profile, Player player) {
 		return profile.getState() == ProfileState.FIGHTING &&
-		       profile.getMatch() != null &&
-		       profile.getMatch().getGamePlayer(player) != null &&
-		       profile.getMatch().getGamePlayer(player).isDead();
+				profile.getMatch() != null &&
+				profile.getMatch().getGamePlayer(player) != null &&
+				profile.getMatch().getGamePlayer(player).isDead();
 	}
 
 }
